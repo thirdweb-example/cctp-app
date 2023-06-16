@@ -54,7 +54,7 @@ export const Destination: React.FC<Props> = ({
     attestationSignature: string
   ) => {
     // STEP 5: Using the message bytes and signature recieve the funds on destination chain and address
-    recieveMessage({ args: [[messageBytes], [attestationSignature]] });
+    recieveMessage({ args: [messageBytes, attestationSignature] });
   };
   return (
     <Web3Button

@@ -1,0 +1,48 @@
+.container {
+    height: 85px;
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    margin: 1rem;
+}
+
+.balance {
+    padding: 0.5rem;
+    margin: 0rem;
+}
+
+.balanceContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.p {
+    font: rgba(60, 60, 60, 0.5);
+    text-align: center;
+    padding: 0rem;
+    margin: 0rem;
+}
+
+.title {
+    margin: 1rem;
+}
+.input {
+    height: 85px;
+    width: 90%;
+    background-color: rgba(60, 60, 60, 0.5);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 2rem;
+    margin: 1rem;
+    font-size: 1.5rem;
+}

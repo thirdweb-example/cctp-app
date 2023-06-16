@@ -36,10 +36,6 @@ export const Burn: React.FC<Props> = ({
     ["address"],
     [destinationAddress]
   );
-  console.log(
-    ethers.utils.arrayify(destinationAddressInBytes32),
-    "destinationAddressInBytes32"
-  );
 
   // STEP 2: Burn USDC
   const {
@@ -50,10 +46,10 @@ export const Burn: React.FC<Props> = ({
   const burn = async () => {
     const burnTx = await burnUSDC({
       args: [
-        [amount],
-        [destinationNetwork.domain],
-        [ethers.utils.arrayify(destinationAddressInBytes32)],
-        [network.usdcContract],
+        amount,
+        destinationNetwork.domain,
+        destinationAddressInBytes32,
+        network.usdcContract,
       ],
     });
     // STEP 3: Retrieve message bytes from logs
@@ -69,7 +65,7 @@ export const Burn: React.FC<Props> = ({
     } else {
       const messageBytes = ethers.utils.defaultAbiCoder.decode(
         ["bytes"],
-        ethers.utils.toUtf8Bytes(log.data)
+        log.data
       )[0];
       const messageHash = ethers.utils.keccak256(messageBytes);
 
@@ -79,7 +75,6 @@ export const Burn: React.FC<Props> = ({
       console.log(burnTx, "burnUSDC data");
       console.log(burnTx.receipt.logs, "burnUSDC logs");
 
-      // console.log(typeof (burnUSDC.receipt.logs), 'burnUSDC logs')
       // STEP 4: Fetch attestation signature
       let attestationResponse: AttestationResponse = { status: "pending" };
       while (attestationResponse.status !== "complete") {

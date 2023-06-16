@@ -15,6 +15,7 @@ import {
 import { DestinationTx } from "./Destination";
 import { ethers } from "ethers";
 import { Burn } from "./Burn";
+import { Balance } from "../Balance/Balance";
 // need to create an input which we pass the value through to the modal
 // view the USDC balance on the origin chain
 
@@ -30,28 +31,20 @@ const Amount: React.FC<Props> = ({ network, destinationNetwork }) => {
   const address = useAddress();
   const switchChain = useSwitchChain();
   const chainId = useChainId();
-  console.log(chainId === network.network.chainId);
   const { contract } = useContract(network.usdcContract);
   const { data, isLoading, error } = useContractRead(contract, "allowance", [
     address,
     address,
   ]);
-  if (data) {
-    console.log(data._hex, "data");
-  }
   const [amount, setAmount] = useState<number>(0);
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setAmount(event.target.valueAsNumber);
-  };
 
   return (
     <div className={styles.container}>
-      <input
-        className={styles.input}
-        type="number"
-        value={amount}
-        onChange={handleInputChange}
-      />
+      <Balance
+        network={network}
+        amount={amount}
+        setAmount={setAmount}
+      ></Balance>
       <div className={styles.buttonContainer}>
         {data && address ? (
           ethers.BigNumber.from(data._hex).toNumber() >= amount &&

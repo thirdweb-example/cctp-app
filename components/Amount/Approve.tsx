@@ -19,10 +19,9 @@ export const Approve: React.FC<Props> = ({ address, network }) => {
   } = useContractWrite(usdcContract, "approve");
   const approve = async () => {
     approveMessengerWithdraw({
-      args: [[address], [address]],
+      args: [address, address],
     });
   };
-  console.log(approveMessengerWithdraw, "approveMessengerWithdraw data");
   return (
     <Web3Button
       className={styles.button}
