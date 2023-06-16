@@ -1,4 +1,4 @@
-import { NetworkType } from "../../pages";
+import { NetworkType } from "../../pages/_app";
 import { Web3Button, ThirdwebSDKProvider } from "@thirdweb-dev/react";
 import { destinationTx } from "../../utils/destinationChain";
 import { Signer } from "ethers";

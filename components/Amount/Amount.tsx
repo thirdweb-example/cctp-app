@@ -1,6 +1,6 @@
 import styles from "./Amount.module.css";
 import { ChangeEvent } from "react";
-import { NetworkType } from "../../pages";
+import { NetworkType } from "../../pages/_app";
 import { useState } from "react";
 import { approve, burn } from "../../utils/currentChain";
 import {
@@ -44,6 +44,7 @@ const Amount: React.FC<Props> = ({ network, destinationNetwork }) => {
   };
 
   const handleBurn = async () => {
+    console.log(amount, "amount");
     const burnResult = await burn(signer, amount, network, address);
     console.log(burnResult, "burnResult");
     if (burnResult) {
@@ -67,7 +68,7 @@ const Amount: React.FC<Props> = ({ network, destinationNetwork }) => {
         onChange={handleInputChange}
       />
       <div className={styles.buttonContainer}>
-        {data ? (
+        {data && address ? (
           ethers.BigNumber.from(data._hex).toNumber() >= amount ? (
             <div>
               {attestationSignature === "" || messageBytes === "" ? (
@@ -108,7 +109,7 @@ const Amount: React.FC<Props> = ({ network, destinationNetwork }) => {
               className={styles.button}
               contractAddress={network.usdcContract}
               action={() => {
-                approve(signer, amount, network);
+                approve(address, signer, amount, network);
               }}
             >
               Approve the Swap

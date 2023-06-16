@@ -1,13 +1,17 @@
 import { ThirdwebSDK } from "@thirdweb-dev/sdk";
 import { ethers, Signer } from "ethers";
-import { NetworkType } from "../pages"
+import { NetworkType } from "../pages/_app"
 
 interface AttestationResponse {
     status: string;
     attestation?: string;
 }
 
-export const approve = async (signer: Signer | undefined, amount: number, network: NetworkType) => {
+export const approve = async (address: string, signer: Signer | undefined, amount: number, network: NetworkType) => {
+    console.log(network.usdcContract, 'network.usdcContract')
+    console.log(amount, 'amount')
+    console.log(network, "network")
+    console.log(signer, 'signer')
     if (typeof signer === 'undefined') return;
     const sdk = ThirdwebSDK.fromSigner(signer, network.network);
 
@@ -15,7 +19,7 @@ export const approve = async (signer: Signer | undefined, amount: number, networ
     const usdcContract = await sdk.getContract(network.usdcContract);
 
     // STEP 1: Approve messenger contract to withdraw from our active eth address
-    const approveMessengerWithdraw = await usdcContract.call("approve", [network.tokenMessengerContract, amount])
+    const approveMessengerWithdraw = await usdcContract.call("approve", [address, amount])
     console.log(approveMessengerWithdraw, 'approveMessengerWithdraw data');
 }
 

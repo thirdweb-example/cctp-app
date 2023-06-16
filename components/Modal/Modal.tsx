@@ -2,7 +2,7 @@ import styles from "./Modal.module.css";
 import Amount from "../Amount/Amount";
 import Network from "../Network/Network";
 import SwitchNetwork from "../Switch/SwitchNetwork";
-import { NetworkType } from "../../pages";
+import { NetworkType } from "../../pages/_app";
 import { Dispatch, SetStateAction } from "react";
 
 // need to create the container for the components
