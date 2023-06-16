@@ -2,7 +2,7 @@ import styles from "./Amount.module.css";
 import { ChangeEvent } from "react";
 import { NetworkType } from "../../pages/_app";
 import { useState } from "react";
-import { approve, burn } from "../../utils/currentChain";
+import { Approve } from "./Approve";
 import {
   Web3Button,
   useAddress,
@@ -14,6 +14,7 @@ import {
 } from "@thirdweb-dev/react";
 import { DestinationTx } from "./Destination";
 import { ethers } from "ethers";
+import { Burn } from "./Burn";
 // need to create an input which we pass the value through to the modal
 // view the USDC balance on the origin chain
 
@@ -43,22 +44,6 @@ const Amount: React.FC<Props> = ({ network, destinationNetwork }) => {
     setAmount(event.target.valueAsNumber);
   };
 
-  const handleBurn = async () => {
-    console.log(amount, "amount");
-    const burnResult = await burn(signer, amount, network, address);
-    console.log(burnResult, "burnResult");
-    if (burnResult) {
-      const { messageBytes, attestationSignature } = burnResult;
-      setMessageBytes(messageBytes);
-      setAttestationSignature(attestationSignature);
-      console.log(attestationSignature, "attestationSignature");
-      console.log(messageBytes, "messageBytes");
-      // Your code to handle the result
-    } else {
-      // Handle the case when burnResult is undefined
-    }
-  };
-
   return (
     <div className={styles.container}>
       <input
@@ -69,17 +54,19 @@ const Amount: React.FC<Props> = ({ network, destinationNetwork }) => {
       />
       <div className={styles.buttonContainer}>
         {data && address ? (
-          ethers.BigNumber.from(data._hex).toNumber() >= amount ? (
+          ethers.BigNumber.from(data._hex).toNumber() >= amount &&
+          amount > 0 ? (
             <div>
               {attestationSignature === "" || messageBytes === "" ? (
                 <div>
-                  <Web3Button
-                    className={styles.button}
-                    contractAddress={network.usdcContract}
-                    action={handleBurn}
-                  >
-                    Deposit USDC
-                  </Web3Button>
+                  <Burn
+                    network={network}
+                    destinationNetwork={destinationNetwork}
+                    destinationAddress={address}
+                    amount={amount}
+                    setMessageBytes={setMessageBytes}
+                    setAttestationSignature={setAttestationSignature}
+                  ></Burn>
                 </div>
               ) : (
                 <div>
@@ -105,15 +92,7 @@ const Amount: React.FC<Props> = ({ network, destinationNetwork }) => {
               )}
             </div>
           ) : (
-            <Web3Button
-              className={styles.button}
-              contractAddress={network.usdcContract}
-              action={() => {
-                approve(address, signer, amount, network);
-              }}
-            >
-              Approve the Swap
-            </Web3Button>
+            <Approve address={address} network={network}></Approve>
           )
         ) : (
           <p>loading...</p>
