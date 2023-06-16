@@ -1,6 +1,10 @@
 import { NetworkType } from "../../pages/_app";
-import { Web3Button, ThirdwebSDKProvider } from "@thirdweb-dev/react";
-import { destinationTx } from "../../utils/destinationChain";
+import {
+  Web3Button,
+  ThirdwebSDKProvider,
+  useContract,
+  useContractWrite,
+} from "@thirdweb-dev/react";
 import { Signer } from "ethers";
 import styles from "./Amount.module.css";
 
@@ -33,22 +37,31 @@ export const DestinationTx: React.FC<Props> = ({
 };
 
 export const Destination: React.FC<Props> = ({
-  messageBytes,
   destinationNetwork,
+  messageBytes,
   attestationSignature,
-  signer,
 }) => {
+  const { contract: messageTransmitterContract } = useContract(
+    destinationNetwork.messageTransmitterContract
+  );
+  const {
+    mutateAsync: recieveMessage,
+    isLoading,
+    error,
+  } = useContractWrite(messageTransmitterContract, "receiveMessage");
+  const destinationTx = async (
+    messageBytes: any,
+    attestationSignature: string
+  ) => {
+    // STEP 5: Using the message bytes and signature recieve the funds on destination chain and address
+    recieveMessage({ args: [messageBytes, attestationSignature] });
+  };
   return (
     <Web3Button
       className={styles.button}
       contractAddress={destinationNetwork.messageTransmitterContract}
       action={() => {
-        destinationTx(
-          messageBytes,
-          attestationSignature,
-          signer,
-          destinationNetwork
-        );
+        destinationTx(messageBytes, attestationSignature);
       }}
     >
       Swap USDC
