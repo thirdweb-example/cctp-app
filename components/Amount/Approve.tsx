@@ -1,5 +1,5 @@
 import { useContract, useContractWrite, Web3Button } from "@thirdweb-dev/react";
-import { NetworkType } from "../../pages/_app";
+import { NetworkType } from "../../const/chains";
 import styles from "./Amount.module.css";
 
 type Props = {

@@ -3,7 +3,7 @@ import styles from "../styles/Home.module.css";
 import { Nav } from "../components/Nav/Nav";
 import Modal from "../components/Modal/Modal";
 import Toggle from "../components/Toggle/Toggle";
-import { NetworkType } from "./_app";
+import { NetworkType } from "../const/chains";
 import { Dispatch, SetStateAction } from "react";
 
 type Props = {

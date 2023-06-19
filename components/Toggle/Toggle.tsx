@@ -18,8 +18,7 @@ const Toggle: React.FC<Props> = ({ setTestnetAsNetwork, isTestnet }) => {
         <input
           type="checkbox"
           id="networkType"
-          checked={isTestnet}
-          defaultChecked
+          checked={!isTestnet}
           onChange={setNetworkType}
         />
         <span className={styles.slider}></span>

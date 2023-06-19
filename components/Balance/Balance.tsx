@@ -1,5 +1,5 @@
 import { useTokenBalance, useContract, useAddress } from "@thirdweb-dev/react";
-import { NetworkType } from "../../pages/_app";
+import { NetworkType } from "../../const/chains";
 import styles from "./Balance.module.css";
 import { Dispatch, SetStateAction, ChangeEvent } from "react";
 import Image from "next/image";

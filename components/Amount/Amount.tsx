@@ -1,6 +1,6 @@
 import styles from "./Amount.module.css";
 import { ChangeEvent } from "react";
-import { NetworkType } from "../../pages/_app";
+import { NetworkType } from "../../const/chains";
 import { useState } from "react";
 import { Approve } from "./Approve";
 import {
