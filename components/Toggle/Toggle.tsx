@@ -13,7 +13,7 @@ const Toggle: React.FC<Props> = ({ setTestnetAsNetwork, isTestnet }) => {
   };
   return (
     <div className={styles.container}>
-      <h2 className={styles.title}>Mainnet</h2>
+      <h2 className={styles.title}>Testnet</h2>
       <label className={styles.switch}>
         <input
           type="checkbox"
@@ -23,7 +23,7 @@ const Toggle: React.FC<Props> = ({ setTestnetAsNetwork, isTestnet }) => {
         />
         <span className={styles.slider}></span>
       </label>
-      <h2 className={styles.title}>Testnet</h2>
+      <h2 className={styles.title}>Mainnet</h2>
     </div>
   );
 };
