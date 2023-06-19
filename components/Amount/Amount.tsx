@@ -1,5 +1,4 @@
 import styles from "./Amount.module.css";
-import { ChangeEvent } from "react";
 import { NetworkType } from "../../const/chains";
 import { useState } from "react";
 import { Approve } from "./Approve";
@@ -16,15 +15,21 @@ import { DestinationTx } from "./Destination";
 import { ethers } from "ethers";
 import { Burn } from "./Burn";
 import { Balance } from "../Balance/Balance";
+import { Dispatch, SetStateAction } from "react";
 // need to create an input which we pass the value through to the modal
 // view the USDC balance on the origin chain
 
 type Props = {
   network: NetworkType;
   destinationNetwork: NetworkType;
+  setEthereumAsNetwork: Dispatch<SetStateAction<boolean>>;
 };
 
-const Amount: React.FC<Props> = ({ network, destinationNetwork }) => {
+const Amount: React.FC<Props> = ({
+  network,
+  destinationNetwork,
+  setEthereumAsNetwork,
+}) => {
   const [messageBytes, setMessageBytes] = useState("");
   const [attestationSignature, setAttestationSignature] = useState("");
   const signer = useSigner();
@@ -79,6 +84,7 @@ const Amount: React.FC<Props> = ({ network, destinationNetwork }) => {
                       destinationNetwork={destinationNetwork}
                       messageBytes={messageBytes}
                       attestationSignature={attestationSignature}
+                      setEthereumAsNetwork={setEthereumAsNetwork}
                     ></DestinationTx>
                   )}
                 </div>

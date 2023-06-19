@@ -26,7 +26,11 @@ const Modal: React.FC<Props> = ({
       <Network network={network} />
       <SwitchNetwork setEthereumAsNetwork={setEthereumAsNetwork} />
       <Network network={destinationNetwork} />
-      <Amount network={network} destinationNetwork={destinationNetwork} />
+      <Amount
+        network={network}
+        destinationNetwork={destinationNetwork}
+        setEthereumAsNetwork={setEthereumAsNetwork}
+      />
     </div>
   );
 };

@@ -4,17 +4,18 @@ import {
   ThirdwebSDKProvider,
   useContract,
   useContractWrite,
-  useTokenBalance,
   useAddress,
 } from "@thirdweb-dev/react";
 import { Signer } from "ethers";
 import styles from "./Amount.module.css";
+import { Dispatch, SetStateAction } from "react";
 
 type Props = {
   messageBytes: any;
   destinationNetwork: NetworkType;
   attestationSignature: any;
   signer: Signer | undefined;
+  setEthereumAsNetwork: Dispatch<SetStateAction<boolean>>;
 };
 
 export const DestinationTx: React.FC<Props> = ({
@@ -22,6 +23,7 @@ export const DestinationTx: React.FC<Props> = ({
   destinationNetwork,
   attestationSignature,
   signer,
+  setEthereumAsNetwork,
 }) => {
   return (
     <ThirdwebSDKProvider
@@ -33,6 +35,7 @@ export const DestinationTx: React.FC<Props> = ({
         destinationNetwork={destinationNetwork}
         attestationSignature={attestationSignature}
         signer={signer}
+        setEthereumAsNetwork={setEthereumAsNetwork}
       />
     </ThirdwebSDKProvider>
   );
@@ -42,6 +45,7 @@ export const Destination: React.FC<Props> = ({
   destinationNetwork,
   messageBytes,
   attestationSignature,
+  setEthereumAsNetwork,
 }) => {
   const { contract: messageTransmitterContract } = useContract(
     destinationNetwork.messageTransmitterContract
@@ -62,13 +66,15 @@ export const Destination: React.FC<Props> = ({
     destinationNetwork.usdcContract
   );
   const address = useAddress();
-  const { data: balance } = useTokenBalance(usdcContract, address);
   return (
     <Web3Button
       className={styles.button}
       contractAddress={destinationNetwork.messageTransmitterContract}
       action={() => {
         destinationTx(messageBytes, attestationSignature);
+      }}
+      onSuccess={() => {
+        setEthereumAsNetwork((prevValue) => !prevValue);
       }}
     >
       Swap USDC
