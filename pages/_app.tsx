@@ -12,7 +12,7 @@ import {
 function MyApp({ Component, pageProps }: AppProps) {
   //useState to keep track of the current network
   const [isEthereum, setEthereumAsNetwork] = useState(true);
-  const [isTestnet, setTestnetAsNetwork] = useState(false);
+  const [isTestnet, setTestnetAsNetwork] = useState(true);
 
   const network = isTestnet
     ? isEthereum
