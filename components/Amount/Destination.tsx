@@ -1,9 +1,11 @@
-import { NetworkType } from "../../pages/_app";
+import { NetworkType } from "../../const/chains";
 import {
   Web3Button,
   ThirdwebSDKProvider,
   useContract,
   useContractWrite,
+  useTokenBalance,
+  useAddress,
 } from "@thirdweb-dev/react";
 import { Signer } from "ethers";
 import styles from "./Amount.module.css";
@@ -56,6 +58,11 @@ export const Destination: React.FC<Props> = ({
     // STEP 5: Using the message bytes and signature recieve the funds on destination chain and address
     recieveMessage({ args: [messageBytes, attestationSignature] });
   };
+  const { contract: usdcContract } = useContract(
+    destinationNetwork.usdcContract
+  );
+  const address = useAddress();
+  const { data: balance } = useTokenBalance(usdcContract, address);
   return (
     <Web3Button
       className={styles.button}

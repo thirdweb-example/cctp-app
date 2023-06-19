@@ -1,6 +1,6 @@
 import styles from "./Network.module.css";
 import Image from "next/image";
-import { NetworkType } from "../../pages/_app";
+import { NetworkType } from "../../const/chains";
 
 // accept which network from modal
 // display info on the network
