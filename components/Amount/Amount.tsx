@@ -10,6 +10,7 @@ import {
   useContract,
   useContractRead,
   useChainId,
+  ConnectWallet,
 } from "@thirdweb-dev/react";
 import { DestinationTx } from "./Destination";
 import { ethers } from "ethers";
@@ -51,50 +52,54 @@ const Amount: React.FC<Props> = ({
         setAmount={setAmount}
       ></Balance>
       <div className={styles.buttonContainer}>
-        {data && address ? (
-          ethers.BigNumber.from(data._hex).toNumber() >= amount &&
-          amount > 0 ? (
-            <div>
-              {attestationSignature === "" || messageBytes === "" ? (
-                <div>
-                  <Burn
-                    network={network}
-                    destinationNetwork={destinationNetwork}
-                    destinationAddress={address}
-                    amount={amount}
-                    setMessageBytes={setMessageBytes}
-                    setAttestationSignature={setAttestationSignature}
-                  ></Burn>
-                </div>
-              ) : (
-                <div>
-                  {chainId === network.network.chainId ? (
-                    <Web3Button
-                      className={styles.button}
-                      contractAddress={network.usdcContract}
-                      action={() => {
-                        switchChain(destinationNetwork.network.chainId);
-                      }}
-                    >
-                      Switch Chain
-                    </Web3Button>
-                  ) : (
-                    <DestinationTx
-                      signer={signer}
+        {address ? (
+          data ? (
+            ethers.BigNumber.from(data._hex).toNumber() >= amount &&
+            amount > 0 ? (
+              <div>
+                {attestationSignature === "" || messageBytes === "" ? (
+                  <div>
+                    <Burn
+                      network={network}
                       destinationNetwork={destinationNetwork}
-                      messageBytes={messageBytes}
-                      attestationSignature={attestationSignature}
-                      setEthereumAsNetwork={setEthereumAsNetwork}
-                    ></DestinationTx>
-                  )}
-                </div>
-              )}
-            </div>
+                      destinationAddress={address}
+                      amount={amount}
+                      setMessageBytes={setMessageBytes}
+                      setAttestationSignature={setAttestationSignature}
+                    ></Burn>
+                  </div>
+                ) : (
+                  <div>
+                    {chainId === network.network.chainId ? (
+                      <Web3Button
+                        className={styles.button}
+                        contractAddress={network.usdcContract}
+                        action={() => {
+                          switchChain(destinationNetwork.network.chainId);
+                        }}
+                      >
+                        Switch Chain
+                      </Web3Button>
+                    ) : (
+                      <DestinationTx
+                        signer={signer}
+                        destinationNetwork={destinationNetwork}
+                        messageBytes={messageBytes}
+                        attestationSignature={attestationSignature}
+                        setEthereumAsNetwork={setEthereumAsNetwork}
+                      ></DestinationTx>
+                    )}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Approve address={address} network={network}></Approve>
+            )
           ) : (
-            <Approve address={address} network={network}></Approve>
+            <p>loading...</p>
           )
         ) : (
-          <p>loading...</p>
+          <ConnectWallet />
         )}
       </div>
     </div>
