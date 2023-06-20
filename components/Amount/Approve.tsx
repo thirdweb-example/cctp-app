@@ -5,9 +5,10 @@ import styles from "./Amount.module.css";
 type Props = {
   address: string;
   network: NetworkType;
+  amount: number;
 };
 
-export const Approve: React.FC<Props> = ({ address, network }) => {
+export const Approve: React.FC<Props> = ({ address, network, amount }) => {
   // initialize contracts
   const { contract: usdcContract } = useContract(network.usdcContract);
 
@@ -22,6 +23,10 @@ export const Approve: React.FC<Props> = ({ address, network }) => {
       args: [address, address],
     });
   };
+  const disabled = () => {
+    return isLoading || !amount || amount <= 0;
+  };
+
   return (
     <Web3Button
       className={styles.button}
@@ -29,6 +34,7 @@ export const Approve: React.FC<Props> = ({ address, network }) => {
       action={() => {
         approve;
       }}
+      isDisabled={disabled()}
     >
       Approve the Swap
     </Web3Button>
