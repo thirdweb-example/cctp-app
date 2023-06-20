@@ -93,7 +93,11 @@ const Amount: React.FC<Props> = ({
                 )}
               </div>
             ) : (
-              <Approve address={address} network={network}></Approve>
+              <Approve
+                address={address}
+                network={network}
+                amount={amount}
+              ></Approve>
             )
           ) : (
             <p>loading...</p>
