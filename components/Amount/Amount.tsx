@@ -3,7 +3,6 @@ import { NetworkType } from "../../const/chains";
 import { useState } from "react";
 import { Approve } from "./Approve";
 import {
-  Web3Button,
   useAddress,
   useSigner,
   useSwitchChain,
@@ -33,15 +32,9 @@ const Amount: React.FC<Props> = ({
 }) => {
   const [messageBytes, setMessageBytes] = useState("");
   const [attestationSignature, setAttestationSignature] = useState("");
-  const signer = useSigner();
   const address = useAddress();
-  const switchChain = useSwitchChain();
-  const chainId = useChainId();
   const { contract } = useContract(network.usdcContract);
-  const { data, isLoading, error } = useContractRead(contract, "allowance", [
-    address,
-    address,
-  ]);
+  const { data } = useContractRead(contract, "allowance", [address, address]);
   const [amount, setAmount] = useState<number>(0);
 
   return (
@@ -53,54 +46,44 @@ const Amount: React.FC<Props> = ({
       ></Balance>
       <div className={styles.buttonContainer}>
         {address ? (
-          data ? (
-            ethers.BigNumber.from(data._hex).toNumber() >= amount &&
-            amount > 0 ? (
-              <div>
-                {attestationSignature === "" || messageBytes === "" ? (
-                  <div>
-                    <Burn
-                      network={network}
-                      destinationNetwork={destinationNetwork}
-                      destinationAddress={address}
-                      amount={amount}
-                      setMessageBytes={setMessageBytes}
-                      setAttestationSignature={setAttestationSignature}
-                    ></Burn>
-                  </div>
-                ) : (
-                  <div>
-                    {chainId === network.network.chainId ? (
-                      <Web3Button
-                        className={styles.button}
-                        contractAddress={network.usdcContract}
-                        action={() => {
-                          switchChain(destinationNetwork.network.chainId);
-                        }}
-                      >
-                        Switch Chain
-                      </Web3Button>
-                    ) : (
+          amount > 0 ? (
+            data ? (
+              ethers.BigNumber.from(data._hex).toNumber() >= amount ? (
+                <div>
+                  {attestationSignature === "" || messageBytes === "" ? (
+                    <div>
+                      <Burn
+                        network={network}
+                        destinationNetwork={destinationNetwork}
+                        destinationAddress={address}
+                        amount={amount}
+                        setMessageBytes={setMessageBytes}
+                        setAttestationSignature={setAttestationSignature}
+                      ></Burn>
+                    </div>
+                  ) : (
+                    <div>
                       <DestinationTx
-                        signer={signer}
                         destinationNetwork={destinationNetwork}
                         messageBytes={messageBytes}
                         attestationSignature={attestationSignature}
                         setEthereumAsNetwork={setEthereumAsNetwork}
                       ></DestinationTx>
-                    )}
-                  </div>
-                )}
-              </div>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <Approve
+                  address={address}
+                  network={network}
+                  amount={amount}
+                ></Approve>
+              )
             ) : (
-              <Approve
-                address={address}
-                network={network}
-                amount={amount}
-              ></Approve>
+              <p>loading...</p>
             )
           ) : (
-            <p>loading...</p>
+            <p>Enter a USDC Amount to Swap</p>
           )
         ) : (
           <ConnectWallet />
