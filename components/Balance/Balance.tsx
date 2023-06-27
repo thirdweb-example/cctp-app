@@ -12,11 +12,7 @@ type Props = {
 export const Balance: React.FC<Props> = ({ network, setAmount, amount }) => {
   const { contract: usdcContract } = useContract(network.usdcContract);
   const address = useAddress();
-  const {
-    data: balance,
-    isLoading,
-    error,
-  } = useTokenBalance(usdcContract, address);
+  const { data: balance } = useTokenBalance(usdcContract, address);
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setAmount(event.target.valueAsNumber);
   };

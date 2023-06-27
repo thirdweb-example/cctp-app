@@ -4,7 +4,6 @@ import Network from "../Network/Network";
 import SwitchNetwork from "../Switch/SwitchNetwork";
 import { NetworkType } from "../../const/chains";
 import { Dispatch, SetStateAction } from "react";
-import { Balance } from "../Balance/Balance";
 
 // need to create the container for the components
 // ned a web3button to perform the swap

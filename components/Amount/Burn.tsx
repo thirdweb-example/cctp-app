@@ -38,11 +38,10 @@ export const Burn: React.FC<Props> = ({
   );
 
   // STEP 2: Burn USDC
-  const {
-    mutateAsync: burnUSDC,
-    isLoading,
-    isError,
-  } = useContractWrite(tokenMessengerContract, "depositForBurn");
+  const { mutateAsync: burnUSDC } = useContractWrite(
+    tokenMessengerContract,
+    "depositForBurn"
+  );
   const burn = async () => {
     const burnTx = await burnUSDC({
       args: [
