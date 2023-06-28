@@ -34,7 +34,10 @@ const Amount: React.FC<Props> = ({
   const [attestationSignature, setAttestationSignature] = useState("");
   const address = useAddress();
   const { contract } = useContract(network.usdcContract);
-  const { data } = useContractRead(contract, "allowance", [address, address]);
+  const { data } = useContractRead(contract, "allowance", [
+    address,
+    network.tokenMessengerContract,
+  ]);
   const [amount, setAmount] = useState<number>(0);
 
   return (
