@@ -1,11 +1,13 @@
 import { useContract, useContractWrite, Web3Button } from "@thirdweb-dev/react";
 import { NetworkType } from "../../const/chains";
 import styles from "./Amount.module.css";
+import { BigNumber } from "ethers";
+import { ethers } from "ethers";
 
 type Props = {
   address: string;
   network: NetworkType;
-  amount: number;
+  amount: BigNumber;
 };
 
 export const Approve: React.FC<Props> = ({ address, network, amount }) => {
@@ -26,24 +28,24 @@ export const Approve: React.FC<Props> = ({ address, network, amount }) => {
       },
       {
         onSuccess: () => {
-          console.log("success");
+          console.log("approved!");
         },
         onError: (e) => {
-          console.log("error", e);
+          console.log("error:", e);
         },
       }
     );
   };
   const disabled = () => {
-    return isLoading || !amount || amount <= 0;
+    return isLoading || !amount || amount <= ethers.BigNumber.from(0);
   };
 
   return (
     <Web3Button
       className={styles.button}
       contractAddress={network.usdcContract}
-      action={() => {
-        return approve();
+      action={async () => {
+        return await approve();
       }}
       isDisabled={disabled()}
     >
