@@ -19,9 +19,20 @@ export const Approve: React.FC<Props> = ({ address, network, amount }) => {
     error,
   } = useContractWrite(usdcContract, "approve");
   const approve = async () => {
-    approveMessengerWithdraw({
-      args: [address, address],
-    });
+    console.log("approve");
+    approveMessengerWithdraw(
+      {
+        args: [network.tokenMessengerContract, amount],
+      },
+      {
+        onSuccess: () => {
+          console.log("success");
+        },
+        onError: (e) => {
+          console.log("error", e);
+        },
+      }
+    );
   };
   const disabled = () => {
     return isLoading || !amount || amount <= 0;
@@ -32,7 +43,7 @@ export const Approve: React.FC<Props> = ({ address, network, amount }) => {
       className={styles.button}
       contractAddress={network.usdcContract}
       action={() => {
-        approve;
+        return approve();
       }}
       isDisabled={disabled()}
     >
