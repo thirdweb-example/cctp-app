@@ -1,16 +1,12 @@
 import styles from "./Toggle.module.css";
 import { Dispatch, SetStateAction } from "react";
-// toggle testnet/mainnet on/off
 
-type Props = {
+interface ToggleProps {
   isTestnet: boolean;
-  setTestnetAsNetwork: Dispatch<SetStateAction<boolean>>;
+  setIsTestnet: Dispatch<SetStateAction<boolean>>;
 };
 
-const Toggle: React.FC<Props> = ({ setTestnetAsNetwork, isTestnet }) => {
-  const setNetworkType = () => {
-    setTestnetAsNetwork((prevValue) => !prevValue);
-  };
+export const Toggle: React.FC<ToggleProps> = ({ setIsTestnet, isTestnet }) => {
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>Testnet</h2>
@@ -19,13 +15,11 @@ const Toggle: React.FC<Props> = ({ setTestnetAsNetwork, isTestnet }) => {
           type="checkbox"
           id="networkType"
           checked={!isTestnet}
-          onChange={setNetworkType}
+          onChange={() => setIsTestnet((prevValue) => !prevValue)}
         />
-        <span className={styles.slider}></span>
+        <span className={styles.slider} />
       </label>
       <h2 className={styles.title}>Mainnet</h2>
     </div>
   );
 };
-
-export default Toggle;

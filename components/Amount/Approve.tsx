@@ -36,9 +36,8 @@ export const Approve: React.FC<Props> = ({ address, network, amount }) => {
       }
     );
   };
-  const disabled = () => {
-    return isLoading || !amount || amount <= ethers.BigNumber.from(0);
-  };
+
+  const isDisabled = isLoading || !amount || amount <= ethers.BigNumber.from(0);
 
   return (
     <Web3Button
@@ -47,7 +46,7 @@ export const Approve: React.FC<Props> = ({ address, network, amount }) => {
       action={async () => {
         return await approve();
       }}
-      isDisabled={disabled()}
+      isDisabled={isDisabled}
     >
       Approve the Swap
     </Web3Button>

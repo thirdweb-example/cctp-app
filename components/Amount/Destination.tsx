@@ -12,14 +12,14 @@ type Props = {
   messageBytes: any;
   destinationNetwork: NetworkType;
   attestationSignature: any;
-  setEthereumAsNetwork: Dispatch<SetStateAction<boolean>>;
+  setIsEthereum: Dispatch<SetStateAction<boolean>>;
 };
 
 export const DestinationTx: React.FC<Props> = ({
   messageBytes,
   destinationNetwork,
   attestationSignature,
-  setEthereumAsNetwork,
+  setIsEthereum,
 }) => {
   return (
     <ThirdwebProvider activeChain={destinationNetwork.network}>
@@ -27,7 +27,7 @@ export const DestinationTx: React.FC<Props> = ({
         messageBytes={messageBytes}
         destinationNetwork={destinationNetwork}
         attestationSignature={attestationSignature}
-        setEthereumAsNetwork={setEthereumAsNetwork}
+        setIsEthereum={setIsEthereum}
       />
     </ThirdwebProvider>
   );
@@ -37,7 +37,7 @@ export const Destination: React.FC<Props> = ({
   destinationNetwork,
   messageBytes,
   attestationSignature,
-  setEthereumAsNetwork,
+  setIsEthereum,
 }) => {
   const { contract: messageTransmitterContract } = useContract(
     destinationNetwork.messageTransmitterContract
@@ -62,7 +62,7 @@ export const Destination: React.FC<Props> = ({
         destinationTx(messageBytes, attestationSignature);
       }}
       onSuccess={() => {
-        setEthereumAsNetwork((prevValue) => !prevValue);
+        setIsEthereum((prevValue) => !prevValue);
       }}
     >
       Swap USDC

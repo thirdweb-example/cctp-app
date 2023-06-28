@@ -19,29 +19,29 @@ import { Dispatch, SetStateAction } from "react";
 // need to create an input which we pass the value through to the modal
 // view the USDC balance on the origin chain
 
-type Props = {
+interface AmountProps {
   network: NetworkType;
   destinationNetwork: NetworkType;
-  setEthereumAsNetwork: Dispatch<SetStateAction<boolean>>;
+  setIsEthereum: Dispatch<SetStateAction<boolean>>;
 };
 
-const Amount: React.FC<Props> = ({
+export const Amount: React.FC<AmountProps> = ({
   network,
   destinationNetwork,
-  setEthereumAsNetwork,
+  setIsEthereum,
 }) => {
   const [messageBytes, setMessageBytes] = useState("");
   const [attestationSignature, setAttestationSignature] = useState("");
   const address = useAddress();
-  const { contract } = useContract(network.usdcContract);
-  const { data } = useContractRead(contract, "allowance", [
+  const { contract: usdcContract } = useContract(network.usdcContract);
+  const { data: usdcAllowance } = useContractRead(usdcContract, "allowance", [
     address,
     network.tokenMessengerContract,
   ]);
 
   const [amount, setAmount] = useState<BigNumber>(ethers.BigNumber.from(0));
-  if (data) {
-    console.log(ethers.BigNumber.from(data._hex).toNumber(), "data");
+  if (usdcAllowance) {
+    console.log(ethers.BigNumber.from(usdcAllowance._hex).toNumber(), "data");
     console.log(amount.toNumber(), "amount");
   }
   return (
@@ -50,12 +50,12 @@ const Amount: React.FC<Props> = ({
         network={network}
         amount={amount}
         setAmount={setAmount}
-      ></Balance>
+      />
       <div className={styles.buttonContainer}>
         {address ? (
           amount > ethers.BigNumber.from(0) ? (
-            data ? (
-              ethers.BigNumber.from(data._hex).toNumber() >=
+            usdcAllowance ? (
+              ethers.BigNumber.from(usdcAllowance._hex).toNumber() >=
               amount.toNumber() ? (
                 <div>
                   {attestationSignature === "" || messageBytes === "" ? (
@@ -67,7 +67,7 @@ const Amount: React.FC<Props> = ({
                         amount={amount}
                         setMessageBytes={setMessageBytes}
                         setAttestationSignature={setAttestationSignature}
-                      ></Burn>
+                        />
                     </div>
                   ) : (
                     <div>
@@ -75,8 +75,8 @@ const Amount: React.FC<Props> = ({
                         destinationNetwork={destinationNetwork}
                         messageBytes={messageBytes}
                         attestationSignature={attestationSignature}
-                        setEthereumAsNetwork={setEthereumAsNetwork}
-                      ></DestinationTx>
+                            setIsEthereum={setIsEthereum}
+                          />
                     </div>
                   )}
                 </div>
@@ -85,7 +85,7 @@ const Amount: React.FC<Props> = ({
                   address={address}
                   network={network}
                   amount={amount}
-                ></Approve>
+                  />
               )
             ) : (
               <p>loading...</p>
@@ -100,5 +100,3 @@ const Amount: React.FC<Props> = ({
     </div>
   );
 };
-
-export default Amount;
