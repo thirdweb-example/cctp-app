@@ -1,8 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 import styles from "./NetworkDropdown.module.css";
 import Image from "next/image";
-import { NetworkSlug, NetworkType, Networks } from "../../const/chains";
+import { Mainnets, NetworkSlug, NetworkType, Networks, Testnets } from "../../const/chains";
 import { Dispatch, SetStateAction } from "react";
+import { MediaRenderer } from "@thirdweb-dev/react";
 
 
 interface NetworkDropdown {
@@ -15,10 +16,20 @@ interface NetworkDropdown {
 export const NetworkDropdown: React.FC<NetworkDropdown> = ({ network, setNetwork, forbiddenNetwork, isTestnet }) => {
   const fullNetwork = Networks[network];
 
+  const allNetworks = isTestnet ? Testnets : Mainnets;
+
+  console.log(fullNetwork.network.icon?.url)
+
   return (
     <div className={styles.container}>
-      <img src={fullNetwork.src} width={48} height={48} alt="network logo" />
-      <h2 className={styles.title}>{fullNetwork.name}</h2>
+      <MediaRenderer src={fullNetwork.src} width="48px" height="48px" />
+      <select value={fullNetwork.network.slug} onChange={(e) => setNetwork(e.target.value as NetworkSlug)} >
+        {allNetworks.map(({ network: ntwr }) => (
+          <option key={ntwr.slug} value={ntwr.slug} disabled={ntwr.slug === forbiddenNetwork}>
+            {ntwr.name}
+          </option>
+        ))}
+      </select>
     </div>
   );
 };

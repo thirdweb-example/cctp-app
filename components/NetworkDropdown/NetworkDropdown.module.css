@@ -10,6 +10,7 @@
     border: 1px solid rgba(255, 255, 255, 0.2);
     padding: 1rem;
     margin: 1rem;
+    gap: 8px;
 }
 
 .title {

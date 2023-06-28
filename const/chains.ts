@@ -103,7 +103,7 @@ export const Networks: Record<string, NetworkType> = {
 
 export const NetworkList: NetworkType[] = Object.values(Networks);
 
-const Mainnets = NetworkList.filter(({ network }) => !network.testnet);
-const Testnets = NetworkList.filter(({ network }) => network.testnet);
+export const Mainnets = NetworkList.filter(({ network }) => !network.testnet);
+export const Testnets = NetworkList.filter(({ network }) => network.testnet);
 
 export type NetworkSlug = "ethereum" | "avalanche" | "arbitrum" | "goerli" | "avalanche-fuji" | "arbitrum-goerli";
