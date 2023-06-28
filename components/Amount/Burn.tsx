@@ -3,6 +3,7 @@ import { NetworkType } from "../../const/chains";
 import { ethers } from "ethers";
 import styles from "./Amount.module.css";
 import { Dispatch, SetStateAction } from "react";
+import { BigNumber } from "ethers";
 
 interface AttestationResponse {
   status: string;
@@ -13,7 +14,7 @@ type Props = {
   network: NetworkType;
   destinationNetwork: NetworkType;
   destinationAddress: string | undefined;
-  amount: number;
+  amount: BigNumber;
   setMessageBytes: Dispatch<SetStateAction<string>>;
   setAttestationSignature: Dispatch<SetStateAction<string>>;
 };

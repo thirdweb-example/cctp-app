@@ -12,7 +12,7 @@ import {
   ConnectWallet,
 } from "@thirdweb-dev/react";
 import { DestinationTx } from "./Destination";
-import { ethers } from "ethers";
+import { BigNumber, ethers } from "ethers";
 import { Burn } from "./Burn";
 import { Balance } from "../Balance/Balance";
 import { Dispatch, SetStateAction } from "react";
@@ -38,8 +38,12 @@ const Amount: React.FC<Props> = ({
     address,
     network.tokenMessengerContract,
   ]);
-  const [amount, setAmount] = useState<number>(0);
 
+  const [amount, setAmount] = useState<BigNumber>(ethers.BigNumber.from(0));
+  if (data) {
+    console.log(ethers.BigNumber.from(data._hex).toNumber(), "data");
+    console.log(amount.toNumber(), "amount");
+  }
   return (
     <div className={styles.container}>
       <Balance
@@ -49,9 +53,10 @@ const Amount: React.FC<Props> = ({
       ></Balance>
       <div className={styles.buttonContainer}>
         {address ? (
-          amount > 0 ? (
+          amount > ethers.BigNumber.from(0) ? (
             data ? (
-              ethers.BigNumber.from(data._hex).toNumber() >= amount ? (
+              ethers.BigNumber.from(data._hex).toNumber() >=
+              amount.toNumber() ? (
                 <div>
                   {attestationSignature === "" || messageBytes === "" ? (
                     <div>
