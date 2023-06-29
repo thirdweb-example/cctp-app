@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 import { ConnectWallet } from "@thirdweb-dev/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -14,7 +13,7 @@ export function Nav() {
       <nav className={styles.nav}>
         <div className={styles.navLeft}>
           <Link href="/" className={`${styles.homeLink} ${styles.navLeft}`}>
-            <img
+            <Image
               src="/thirdweb.svg"
               width={48}
               height={48}

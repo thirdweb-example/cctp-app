@@ -4,7 +4,7 @@
   justify-content: center;
 }
 
-.button {
+/* .button {
   height: 85px;
   width: 90%;
   background-color: rgba(60, 60, 60, 0.5);
@@ -18,11 +18,11 @@
   margin: 1rem;
   font-size: 1.5rem;
 }
+*/
 
 .button:hover {
-  background-color: rgba(60, 60, 60, 0.8);
-  cursor: pointer;
-}
+  opacity: 0.8;
+} 
 
 .buttonContainer {
   display: flex;

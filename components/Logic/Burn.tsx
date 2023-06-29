@@ -1,31 +1,31 @@
-import { useContract, useContractWrite, Web3Button } from "@thirdweb-dev/react";
-import { NetworkType } from "../../const/chains";
-import { ethers } from "ethers";
-import styles from "./Amount.module.css";
+import { useAddress, useContract, useContractWrite, Web3Button } from "@thirdweb-dev/react";
+import { Networks, NetworkSlug, NetworkType } from "../../const/chains";
+import { ethers, utils } from "ethers";
+import styles from "./Approve.module.css";
 import { Dispatch, SetStateAction } from "react";
-import { BigNumber } from "ethers";
+import { Status } from "../Main";
 
 interface AttestationResponse {
   status: string;
   attestation?: string;
 }
 
-type Props = {
+interface BurnProps {
   network: NetworkType;
-  destinationNetwork: NetworkType;
-  destinationAddress: string | undefined;
-  amount: BigNumber;
+  destinationNetwork: NetworkSlug;
+  amount: number;
   setMessageBytes: Dispatch<SetStateAction<string>>;
   setAttestationSignature: Dispatch<SetStateAction<string>>;
+  setStatus: Dispatch<SetStateAction<Status>>;
 };
 
-export const Burn: React.FC<Props> = ({
+export const Burn: React.FC<BurnProps> = ({
   network,
-  destinationAddress,
-  amount,
   destinationNetwork,
+  amount,
   setMessageBytes,
   setAttestationSignature,
+  setStatus,
 }) => {
   // initialize contract
   const { contract: tokenMessengerContract } = useContract(
@@ -33,21 +33,26 @@ export const Burn: React.FC<Props> = ({
   );
 
   // destination address
+  const address = useAddress();
   const destinationAddressInBytes32 = ethers.utils.defaultAbiCoder.encode(
     ["address"],
-    [destinationAddress]
+    [address]
   );
 
   // STEP 2: Burn USDC
-  const { mutateAsync: burnUSDC } = useContractWrite(
+  const { mutateAsync: burnUsdc } = useContractWrite(
     tokenMessengerContract,
     "depositForBurn"
   );
+
+  const fullDestinationNetwork = Networks[destinationNetwork];
+
   const burn = async () => {
-    const burnTx = await burnUSDC({
+    console.log({ amount, formatted: utils.parseUnits(amount.toString(), 6) });
+    const burnTx = await burnUsdc({
       args: [
-        amount,
-        destinationNetwork.domain,
+        utils.parseUnits(amount.toString(), 6),
+        fullDestinationNetwork.domain,
         destinationAddressInBytes32,
         network.usdcContract,
       ],
@@ -72,8 +77,8 @@ export const Burn: React.FC<Props> = ({
       console.log(`MessageBytes: ${messageBytes}`);
       console.log(`MessageHash: ${messageHash}`);
 
-      console.log(burnTx, "burnUSDC data");
-      console.log(burnTx.receipt.logs, "burnUSDC logs");
+      console.log(burnTx, "burnUsdc data");
+      console.log(burnTx.receipt.logs, "burnUsdc logs");
 
       // STEP 4: Fetch attestation signature
       let attestationResponse: AttestationResponse = { status: "pending" };
@@ -96,7 +101,12 @@ export const Burn: React.FC<Props> = ({
       <Web3Button
         className={styles.button}
         contractAddress={network.usdcContract}
-        action={burn}
+        action={async () => {
+          return await burn();
+        }}
+        onSuccess={() => {
+          setStatus("swap");
+        }}
       >
         Deposit USDC
       </Web3Button>

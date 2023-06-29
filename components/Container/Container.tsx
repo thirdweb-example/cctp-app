@@ -1,10 +1,11 @@
 import styles from "./Container.module.css";
-import { Amount } from "../Amount/Amount";
+import { Logic } from "../Logic/Logic";
 import { NetworkDropdown } from "../NetworkDropdown/NetworkDropdown";
 import { SwapNetwork } from "../SwapNetwork/SwapNetwork";
 import { NetworkSlug, NetworkType } from "../../const/chains";
 import { Dispatch, SetStateAction } from "react";
 import { Toggle } from "../Toggle/Toggle";
+import { Status } from "../Main";
 
 // need to create the container for the components
 // ned a web3button to perform the swap
@@ -17,6 +18,8 @@ interface ContainerProps {
   setDestinationNetwork: Dispatch<SetStateAction<NetworkSlug>>;
   isTestnet: boolean;
   setIsTestnet: Dispatch<SetStateAction<boolean>>;
+  status: Status;
+  setStatus: Dispatch<SetStateAction<Status>>;
 };
 
 export const Container: React.FC<ContainerProps> = ({
@@ -26,21 +29,30 @@ export const Container: React.FC<ContainerProps> = ({
   setDestinationNetwork,
   isTestnet,
   setIsTestnet,
+  status,
+  setStatus,
 }) => {
+  console.log({ status })
   return (
     <div className={styles.container}>
-      <NetworkDropdown network={sourceNetwork} setNetwork={setSourceNetwork} forbiddenNetwork={destinationNetwork} isTestnet={isTestnet} />
-      <SwapNetwork sourceNetwork={sourceNetwork} setSourceNetwork={setSourceNetwork} destinationNetwork={destinationNetwork} setDestinationNetwork={setDestinationNetwork} />
-      <NetworkDropdown network={destinationNetwork} setNetwork={setDestinationNetwork} forbiddenNetwork={sourceNetwork} isTestnet={isTestnet} />
-      {/*       <Amount
-        network={network}
+      {/*       {status === "idle" ? ( */}
+      <>
+        <Toggle
+          isTestnet={isTestnet}
+          setIsTestnet={setIsTestnet}
+        />
+        <NetworkDropdown network={sourceNetwork} setNetwork={setSourceNetwork} forbiddenNetwork={destinationNetwork} isTestnet={isTestnet} />
+        <SwapNetwork sourceNetwork={sourceNetwork} setSourceNetwork={setSourceNetwork} destinationNetwork={destinationNetwork} setDestinationNetwork={setDestinationNetwork} />
+        <NetworkDropdown network={destinationNetwork} setNetwork={setDestinationNetwork} forbiddenNetwork={sourceNetwork} isTestnet={isTestnet} />
+      </>
+      {/*       ) : ( */}
+      <Logic
+        sourceNetwork={sourceNetwork}
         destinationNetwork={destinationNetwork}
-        setIsEthereum={setIsEthereum}
-      /> */}
-      <Toggle
-        isTestnet={isTestnet}
-        setIsTestnet={setIsTestnet}
+        status={status}
+        setStatus={setStatus}
       />
+      {/*       )} */}
     </div>
   );
 };

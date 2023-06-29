@@ -3,7 +3,6 @@ import { NetworkSlug } from "../../const/chains";
 import { Nav } from "../Nav/Nav";
 import styles from "./Landing.module.css";
 import { Container } from "../Container/Container";
-import { Toggle } from "../Toggle/Toggle";
 import { Status } from "../Main";
 
 interface LandingProps {
@@ -38,6 +37,8 @@ export const Landing: React.FC<LandingProps> = ({
           setDestinationNetwork={setDestinationNetwork}
           isTestnet={isTestnet}
           setIsTestnet={setIsTestnet}
+          status={status}
+          setStatus={setStatus}
         />
       </main>
     </div>

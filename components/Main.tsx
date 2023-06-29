@@ -12,14 +12,16 @@ export const Main = () => {
   const [status, setStatus] = useState<Status>("idle");
   const [isTestnet, setIsTestnet] = useState(true);
 
-  const [sourceNetwork, setSourceNetwork] = useState<NetworkSlug>("ethereum");
-  const [destinationNetwork, setDestinationNetwork] = useState<NetworkSlug>("avalanche");
+  const [sourceNetwork, setSourceNetwork] = useState<NetworkSlug>("goerli");
+  const [destinationNetwork, setDestinationNetwork] = useState<NetworkSlug>("avalanche-fuji");
 
   const slugNetwork = useMemo(() => {
+
     return status === "swap" ? destinationNetwork : sourceNetwork;
   }, [status, destinationNetwork, sourceNetwork]);
 
   const activeChain = Networks[slugNetwork];
+  console.log({ status, destinationNetwork, sourceNetwork, activeChain })
 
   return (
     <ThirdwebProvider activeChain={activeChain.network}>
