@@ -5,7 +5,7 @@ import {
   NetworkSlug,
   Networks,
 } from "../const/chains";
-import { Container } from "../components/Container/Container";
+import { Card } from "../components/card";
 import { Nav } from "../components/nav";
 import { Status } from "../const/types";
 
@@ -26,10 +26,9 @@ const Home: NextPage = () => {
   return (
     <ThirdwebProvider activeChain={activeChain.network}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-6">
-        <div className="mx-auto max-w-3xl">
+        <div className="mx-auto max-w-3xl flex flex-col gap-12">
           <Nav />
-          <main className="">
-          <Container
+          <Card
             sourceNetwork={sourceNetwork}
             setSourceNetwork={setSourceNetwork}
             destinationNetwork={destinationNetwork}
@@ -39,7 +38,6 @@ const Home: NextPage = () => {
             status={status}
             setStatus={setStatus}
           />
-          </main>
         </div>
       </div>
     </ThirdwebProvider>

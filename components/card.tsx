@@ -1,13 +1,13 @@
-import styles from "./Container.module.css";
-import { Logic } from "../Logic/Logic";
-import { NetworkDropdown } from "../NetworkDropdown/NetworkDropdown";
-import { SwapNetwork } from "../SwapNetwork/SwapNetwork";
-import { NetworkSlug, NetworkType } from "../../const/chains";
+import styles from "./Card.module.css";
+import { Logic } from "./Logic/Logic";
+import { NetworkDropdown } from "./NetworkDropdown/NetworkDropdown";
+import { SwapNetwork } from "./SwapNetwork/SwapNetwork";
+import { NetworkSlug, NetworkType } from "../const/chains";
 import { Dispatch, SetStateAction } from "react";
-import { TestnetMainnetSelector } from "../testnet-mainnet-selector";
-import { Status } from "../../const/types";
+import { TestnetMainnetSelector } from "./testnet-mainnet-selector";
+import { Status } from "../const/types";
 
-interface ContainerProps {
+interface CardProps {
   sourceNetwork: NetworkSlug;
   setSourceNetwork: Dispatch<SetStateAction<NetworkSlug>>;
   destinationNetwork: NetworkSlug;
@@ -18,7 +18,7 @@ interface ContainerProps {
   setStatus: Dispatch<SetStateAction<Status>>;
 };
 
-export const Container: React.FC<ContainerProps> = ({
+export const Card: React.FC<CardProps> = ({
   sourceNetwork,
   setSourceNetwork,
   destinationNetwork,
@@ -28,9 +28,9 @@ export const Container: React.FC<ContainerProps> = ({
   status,
   setStatus,
 }) => {
-  console.log({ status })
+  console.log({ status });
   return (
-    <div className={styles.container}>
+    <div className="px-4 py-5 sm:px-6 rounded-xl bg-[#131417]">
       {/*       {status === "idle" ? ( */}
       <>
         <TestnetMainnetSelector
