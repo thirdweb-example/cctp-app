@@ -4,7 +4,7 @@ import { NetworkDropdown } from "../NetworkDropdown/NetworkDropdown";
 import { SwapNetwork } from "../SwapNetwork/SwapNetwork";
 import { NetworkSlug, NetworkType } from "../../const/chains";
 import { Dispatch, SetStateAction } from "react";
-import { Toggle } from "../Toggle/Toggle";
+import { TestnetMainnetSelector } from "../testnet-mainnet-selector";
 import { Status } from "../../const/types";
 
 interface ContainerProps {
@@ -33,7 +33,7 @@ export const Container: React.FC<ContainerProps> = ({
     <div className={styles.container}>
       {/*       {status === "idle" ? ( */}
       <>
-        <Toggle
+        <TestnetMainnetSelector
           isTestnet={isTestnet}
           setIsTestnet={setIsTestnet}
         />
