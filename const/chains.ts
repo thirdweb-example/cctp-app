@@ -49,10 +49,10 @@ export const ArbitrumTestnet: NetworkType = {
   network: ArbitrumGoerli,
   src: ArbitrumGoerli.icon.url,
   domain: 3,
-  tokenMessengerContract: "0x0a2d7f7e0b6b3e4b0b0b9e2d6f7e0b6b3e4b0b0b",
-  messageTransmitterContract: "0x0a2d7f7e0b6b3e4b0b0b9e2d6f7e0b6b3e4b0b0b",
+  tokenMessengerContract: "0x12dcfd3fe2e9eac2859fd1ed86d2ab8c5a2f9352",
+  messageTransmitterContract: "0x109bc137cb64eab7c0b1dddd1edf341467dc2d35",
   usdcContract: "0xfd064A18f3BF249cf1f87FC203E90D8f650f2d63",
-  tokenMinterContract: "0xca6b4c00831ffb77afe22e734a6101b268b7fcbe",
+  tokenMinterContract: "0xe997d7d2f6e065a9a93fa2175e878fb9081f1f0a",
   api: "https://iris-api-sandbox.circle.com/attestations",
 };
 
@@ -85,10 +85,10 @@ export const ArbitrumMainnet: NetworkType = {
   network: Arbitrum,
   src: Arbitrum.icon.url,
   domain: 3,
-  tokenMessengerContract: "0x12dcfd3fe2e9eac2859fd1ed86d2ab8c5a2f9352",
-  messageTransmitterContract: "0x109bc137cb64eab7c0b1dddd1edf341467dc2d35",
+  tokenMessengerContract: "0x19330d10D9Cc8751218eaf51E8885D058642E08A",
+  messageTransmitterContract: "0xC30362313FBBA5cf9163F0bb16a0e01f01A896ca",
   usdcContract: "0x720bF4e85513db78AA7698d3C8B0508aD6Ae9bE5",
-  tokenMinterContract: "0xe997d7d2f6e065a9a93fa2175e878fb9081f1f0a",
+  tokenMinterContract: "0xE7Ed1fa7f45D05C508232aa32649D89b73b8bA48",
   api: "https://iris-api.circle.com/attestations",
 };
 
