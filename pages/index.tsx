@@ -7,7 +7,6 @@ import {
 } from "../const/chains";
 import { Container } from "../components/Container/Container";
 import { Nav } from "../components/Nav/Nav";
-import styles from "../styles/Home.module.css";
 import { Status } from "../const/types";
 
 const Home: NextPage = () => {
@@ -26,9 +25,10 @@ const Home: NextPage = () => {
 
   return (
     <ThirdwebProvider activeChain={activeChain.network}>
-      <div className={styles.container}>
-        <Nav />
-        <main className={styles.main}>
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-6">
+        <div className="mx-auto max-w-3xl">
+          <Nav />
+          <main className="">
           <Container
             sourceNetwork={sourceNetwork}
             setSourceNetwork={setSourceNetwork}
@@ -39,7 +39,8 @@ const Home: NextPage = () => {
             status={status}
             setStatus={setStatus}
           />
-        </main>
+          </main>
+        </div>
       </div>
     </ThirdwebProvider>
   );
