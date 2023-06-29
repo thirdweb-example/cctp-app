@@ -15,7 +15,13 @@ interface ActionButtonProps {
   amount: string;
 }
 
-export const ActionButton: React.FC<ActionButtonProps> = ({ status, setStatus, sourceNetwork, destinationNetwork, amount }) => {
+export const ActionButton: React.FC<ActionButtonProps> = ({
+  status,
+  setStatus,
+  sourceNetwork,
+  destinationNetwork,
+  amount
+}) => {
   const [messageBytes, setMessageBytes] = useState("");
   const [attestationSignature, setAttestationSignature] = useState("");
   const address = useAddress();
@@ -65,5 +71,9 @@ export const ActionButton: React.FC<ActionButtonProps> = ({ status, setStatus, s
     );
   }
 
-  return "Something went wrong";
+  return (
+    <div>
+      Something went wrong.
+    </div>
+  );
 };
