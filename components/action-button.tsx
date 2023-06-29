@@ -3,9 +3,9 @@ import { Status } from "../const/types";
 import { utils, BigNumber } from "ethers";
 import { Dispatch, SetStateAction, useState } from "react";
 import { NetworkSlug, Networks } from "../const/chains";
-import { Destination } from "./Logic/Destination";
-import { Burn } from "./Logic/Burn";
-import { Approve } from "./Logic/Approve";
+import { SwapButton } from "./swap-button";
+import { BurnAndDepositButton } from "./burn-and-deposit-button";
+import { ApproveButton } from "./approve-button";
 
 interface ActionButtonProps {
   status: Status;
@@ -34,7 +34,7 @@ export const ActionButton: React.FC<ActionButtonProps> = ({ status, setStatus, s
 
   if (status === "swap") {
     return (
-      <Destination
+      <SwapButton
         destinationNetwork={destinationNetwork}
         messageBytes={messageBytes}
         attestationSignature={attestationSignature}
@@ -44,7 +44,7 @@ export const ActionButton: React.FC<ActionButtonProps> = ({ status, setStatus, s
 
   if ((usdcAllowance && formattedAllowance <= Number(amount))) {
     return (
-      <Approve
+      <ApproveButton
         contractAddress={network.usdcContract}
         amount={amount}
         tokenMessengerContract={network.tokenMessengerContract}
@@ -54,7 +54,7 @@ export const ActionButton: React.FC<ActionButtonProps> = ({ status, setStatus, s
 
   if (!attestationSignature || !messageBytes) {
     return (
-      <Burn
+      <BurnAndDepositButton
         network={network}
         destinationNetwork={destinationNetwork}
         amount={amount}

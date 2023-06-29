@@ -1,15 +1,15 @@
 import { useAddress, useContract, useContractWrite, Web3Button } from "@thirdweb-dev/react";
-import { Networks, NetworkSlug, NetworkType } from "../../const/chains";
 import { ethers, utils } from "ethers";
 import { Dispatch, SetStateAction } from "react";
-import { Status } from "../../const/types";
+import { Status } from "../const/types";
+import { NetworkType, NetworkSlug, Networks } from "../const/chains";
 
 interface AttestationResponse {
   status: string;
   attestation?: string;
 }
 
-interface BurnProps {
+interface BurnAndDepositButtonProps {
   network: NetworkType;
   destinationNetwork: NetworkSlug;
   amount: string;
@@ -18,7 +18,7 @@ interface BurnProps {
   setStatus: Dispatch<SetStateAction<Status>>;
 };
 
-export const Burn: React.FC<BurnProps> = ({
+export const BurnAndDepositButton: React.FC<BurnAndDepositButtonProps> = ({
   network,
   destinationNetwork,
   amount,

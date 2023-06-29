@@ -1,15 +1,13 @@
-import { useContract, useContractWrite, Web3Button } from "@thirdweb-dev/react";
-import { NetworkType } from "../../const/chains";
-import styles from "./Approve.module.css";
+import { Web3Button } from "@thirdweb-dev/react";
 import { utils } from "ethers";
 
-interface ApproveProps {
+interface ApproveButtonProps {
   contractAddress: string;
   tokenMessengerContract: string;
   amount: string;
 };
 
-export const Approve: React.FC<ApproveProps> = ({ contractAddress, tokenMessengerContract, amount }) => {
+export const ApproveButton: React.FC<ApproveButtonProps> = ({ contractAddress, tokenMessengerContract, amount }) => {
   const isDisabled = !amount || Number(amount) <= 0;
 
   return (

@@ -1,21 +1,20 @@
-import { NetworkSlug, Networks } from "../../const/chains";
+import { NetworkSlug, Networks } from "../const/chains";
 import {
   Web3Button,
   useContract,
   useContractWrite,
 } from "@thirdweb-dev/react";
-import styles from "./Approve.module.css";
 import { Dispatch, SetStateAction } from "react";
-import { Status } from "../../const/types";
+import { Status } from "../const/types";
 
-interface DestinationProps {
+interface SwapButtonProps {
   messageBytes: string;
   destinationNetwork: NetworkSlug;
   attestationSignature: string;
   setStatus: Dispatch<SetStateAction<Status>>;
 };
 
-export const Destination: React.FC<DestinationProps> = ({
+export const SwapButton: React.FC<SwapButtonProps> = ({
   destinationNetwork,
   messageBytes,
   attestationSignature,
