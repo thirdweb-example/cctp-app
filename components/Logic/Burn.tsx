@@ -1,7 +1,6 @@
 import { useAddress, useContract, useContractWrite, Web3Button } from "@thirdweb-dev/react";
 import { Networks, NetworkSlug, NetworkType } from "../../const/chains";
 import { ethers, utils } from "ethers";
-import styles from "./Approve.module.css";
 import { Dispatch, SetStateAction } from "react";
 import { Status } from "../../const/types";
 
@@ -96,10 +95,13 @@ export const Burn: React.FC<BurnProps> = ({
       console.log(messageBytes, "messageBytes");
     }
   };
+
+  const isDisabled = !amount || Number(amount) <= 0;
+
   return (
     <div>
       <Web3Button
-        className={styles.button}
+        className="connect-wallet"
         contractAddress={network.usdcContract}
         action={async () => {
           return await burn();
@@ -107,6 +109,7 @@ export const Burn: React.FC<BurnProps> = ({
         onSuccess={() => {
           setStatus("swap");
         }}
+        isDisabled={isDisabled}
       >
         Deposit USDC
       </Web3Button>

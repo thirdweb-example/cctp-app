@@ -14,7 +14,7 @@ export const Approve: React.FC<ApproveProps> = ({ contractAddress, tokenMessenge
 
   return (
     <Web3Button
-      className={styles.button}
+      className="connect-wallet"
       contractAddress={contractAddress}
       action={(contract) =>
         contract.call("approve", [

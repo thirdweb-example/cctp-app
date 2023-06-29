@@ -17,7 +17,6 @@ const Home: NextPage = () => {
   const [destinationNetwork, setDestinationNetwork] = useState<NetworkSlug>("avalanche-fuji");
 
   const slugNetwork = useMemo(() => {
-
     return status === "swap" ? destinationNetwork : sourceNetwork;
   }, [status, destinationNetwork, sourceNetwork]);
 

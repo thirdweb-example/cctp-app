@@ -39,7 +39,7 @@ export const Destination: React.FC<DestinationProps> = ({
   };
   return (
     <Web3Button
-      className={styles.button}
+      className="connect-wallet"
       contractAddress={fullDestinationNetwork.messageTransmitterContract}
       action={() => {
         destinationTx(messageBytes, attestationSignature);
