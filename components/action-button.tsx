@@ -71,9 +71,5 @@ export const ActionButton: React.FC<ActionButtonProps> = ({
     );
   }
 
-  return (
-    <div>
-      Something went wrong.
-    </div>
-  );
+  return null;
 };

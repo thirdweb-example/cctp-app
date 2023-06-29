@@ -60,7 +60,9 @@ export const Card: React.FC<CardProps> = ({
         setAmount={setAmount}
         balance={Number((balance?.displayValue) || "0").toFixed(2)}
       />
-      <ActionButton amount={amount} status={status} setStatus={setStatus} sourceNetwork={sourceNetwork} destinationNetwork={destinationNetwork} />
+      {amount && Number(amount) > 0 && (
+        <ActionButton amount={amount} status={status} setStatus={setStatus} sourceNetwork={sourceNetwork} destinationNetwork={destinationNetwork} />
+      )}
       {/*       )} */}
     </div>
   );
