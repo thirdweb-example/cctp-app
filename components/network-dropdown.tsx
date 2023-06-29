@@ -20,7 +20,7 @@ export const NetworkDropdown: React.FC<NetworkDropdown> = ({ network, setNetwork
   const allNetworks = isTestnet ? Testnets : Mainnets;
 
   return (
-    <div className="px-4 py-5 sm:px-6 rounded-xl bg-[#232429] mx-auto flex flex-col gap-2 w-full">
+    <div className="p-3 rounded-xl bg-[#232429] mx-auto flex flex-col gap-2 w-full">
       <span className="block text-sm font-medium leading-6 text-gray-400">
         {heading}
       </span>
