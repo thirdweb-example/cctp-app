@@ -53,7 +53,7 @@ export const NetworkDropdown: React.FC<NetworkDropdown> = ({ network, setNetwork
                   <button
                     disabled={ntwr.slug === forbiddenNetwork}
                     onClick={() => setNetwork(ntwr.slug as NetworkSlug)}
-                    className="group flex items-center px-4 py-2 text-white text-sm disabled:text-gray-300 disabled:cursor-not-allowed"
+                    className="group w-full hover:opacity-90 flex items-center px-4 py-2 text-white text-sm disabled:text-gray-300 disabled:cursor-not-allowed"
                   >
                     {ntwr.name}
                   </button>

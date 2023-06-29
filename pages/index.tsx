@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import { ThirdwebProvider } from "@thirdweb-dev/react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   NetworkSlug,
   Networks,
@@ -21,6 +21,16 @@ const Home: NextPage = () => {
   }, [status, destinationNetwork, sourceNetwork]);
 
   const activeChain = Networks[slugNetwork];
+
+  useEffect(() => {
+    if (isTestnet) {
+      setSourceNetwork("goerli");
+      setDestinationNetwork("avalanche-fuji");
+    } else {
+      setSourceNetwork("ethereum");
+      setDestinationNetwork("avalanche");
+    }
+  }, [isTestnet])
 
   return (
     <ThirdwebProvider activeChain={activeChain.network}>
