@@ -1,5 +1,5 @@
-import { useAddress, useContract, useContractWrite, Web3Button } from "@thirdweb-dev/react";
-import { ethers, utils } from "ethers";
+import { useAddress, useContract, useContractRead, useContractWrite, Web3Button } from "@thirdweb-dev/react";
+import { BigNumber, ethers, utils } from "ethers";
 import { Dispatch, SetStateAction } from "react";
 import { Status } from "../const/types";
 import { NetworkType, NetworkSlug, Networks } from "../const/chains";
@@ -9,7 +9,7 @@ interface AttestationResponse {
   attestation?: string;
 }
 
-interface BurnAndDepositButtonProps {
+interface ApproveAndBurnButtonProps {
   network: NetworkType;
   destinationNetwork: NetworkSlug;
   amount: string;
@@ -18,7 +18,7 @@ interface BurnAndDepositButtonProps {
   setStatus: Dispatch<SetStateAction<Status>>;
 };
 
-export const BurnAndDepositButton: React.FC<BurnAndDepositButtonProps> = ({
+export const ApproveAndBurnButton: React.FC<ApproveAndBurnButtonProps> = ({
   network,
   destinationNetwork,
   amount,
@@ -26,16 +26,31 @@ export const BurnAndDepositButton: React.FC<BurnAndDepositButtonProps> = ({
   setAttestationSignature,
   setStatus,
 }) => {
+  const address = useAddress();
+
   // initialize contract
   const { contract: tokenMessengerContract } = useContract(
     network.tokenMessengerContract
   );
 
+  const { contract: usdcContract } = useContract(network.usdcContract);
+  // Check allowance
+  const { data: usdcAllowance } = useContractRead(usdcContract, "allowance", [
+    address,
+    network.tokenMessengerContract,
+  ]);
+  const formattedAllowance = Number(utils.formatUnits(usdcAllowance || BigNumber.from(0), 6));
+
   // destination address
-  const address = useAddress();
   const destinationAddressInBytes32 = ethers.utils.defaultAbiCoder.encode(
     ["address"],
     [address]
+  );
+
+  // STEP 1: Approve USDC
+  const { mutateAsync: approveUsdc } = useContractWrite(
+    usdcContract,
+    "approve"
   );
 
   // STEP 2: Burn USDC
@@ -46,8 +61,28 @@ export const BurnAndDepositButton: React.FC<BurnAndDepositButtonProps> = ({
 
   const fullDestinationNetwork = Networks[destinationNetwork];
 
-  const burn = async () => {
-    console.log({ amount, formatted: utils.parseUnits(amount, 6) });
+  const hasApprovedAmount = usdcAllowance && formattedAllowance >= Number(amount);
+
+  const approve = async () => {
+    if (hasApprovedAmount || !usdcContract) {
+      return;
+    }
+    await approveUsdc({
+      args: [
+        network.tokenMessengerContract,
+        utils.parseUnits(amount, 6),
+      ]
+    });
+  };
+
+  const approveAndBurn = async () => {
+    if (!usdcContract) {
+      return;
+    }
+    // STEP 1: Approve USDC
+    await approve();
+
+    // STEP 2: Burn USDC   
     const burnTx = await burnUsdc({
       args: [
         utils.parseUnits(amount, 6),
@@ -56,6 +91,7 @@ export const BurnAndDepositButton: React.FC<BurnAndDepositButtonProps> = ({
         network.usdcContract,
       ],
     });
+
     // STEP 3: Retrieve message bytes from logs
     const transactionReceipt = burnTx.receipt;
     const eventTopic = ethers.utils.keccak256(
@@ -93,6 +129,7 @@ export const BurnAndDepositButton: React.FC<BurnAndDepositButtonProps> = ({
       setAttestationSignature(attestationSignature);
       console.log(attestationSignature, "attestationSignature");
       console.log(messageBytes, "messageBytes");
+      setStatus("swap");
     }
   };
 
@@ -104,14 +141,11 @@ export const BurnAndDepositButton: React.FC<BurnAndDepositButtonProps> = ({
         className="connect-wallet"
         contractAddress={network.usdcContract}
         action={async () => {
-          return await burn();
-        }}
-        onSuccess={() => {
-          setStatus("swap");
+          return await approveAndBurn();
         }}
         isDisabled={isDisabled}
       >
-        Deposit USDC
+        Burn USDC
       </Web3Button>
     </div>
   );

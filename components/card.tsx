@@ -1,8 +1,7 @@
 import { NetworkDropdown } from "./network-dropdown";
 import { SwapNetwork } from "./swap-network";
-import { NetworkSlug, NetworkType, Networks } from "../const/chains";
+import { NetworkSlug, Networks } from "../const/chains";
 import { Dispatch, SetStateAction, useState } from "react";
-import { TestnetMainnetSelector } from "./testnet-mainnet-selector";
 import { Status } from "../const/types";
 import { ActionButton } from "./action-button";
 import { TransferInput } from "./transfer-input";
@@ -42,19 +41,15 @@ export const Card: React.FC<CardProps> = ({
 
   return (
     <div className="px-4 py-5 sm:px-6 rounded-xl bg-[#131417] w-full md:w-9/12 mx-auto flex flex-col gap-4">
-      {/*       {status === "idle" ? ( */}
-      <>
-        <TestnetMainnetSelector
+      {/*         <TestnetMainnetSelector
           isTestnet={isTestnet}
           setIsTestnet={setIsTestnet}
-        />
-        <div className="flex flex-col gap-2">
-          <NetworkDropdown heading="From" swapNetwork={swapNetwork} network={sourceNetwork} setNetwork={setSourceNetwork} forbiddenNetwork={destinationNetwork} isTestnet={isTestnet} />
-          <SwapNetwork swapNetwork={swapNetwork} />
-          <NetworkDropdown heading="To" swapNetwork={swapNetwork} network={destinationNetwork} setNetwork={setDestinationNetwork} forbiddenNetwork={sourceNetwork} isTestnet={isTestnet} />
-        </div>
-      </>
-      {/*       ) : ( */}
+        /> */}
+      <div className="flex flex-col gap-2">
+        <NetworkDropdown heading="From" swapNetwork={swapNetwork} network={sourceNetwork} setNetwork={setSourceNetwork} forbiddenNetwork={destinationNetwork} isTestnet={isTestnet} />
+        <SwapNetwork swapNetwork={swapNetwork} />
+        <NetworkDropdown heading="To" swapNetwork={swapNetwork} network={destinationNetwork} setNetwork={setDestinationNetwork} forbiddenNetwork={sourceNetwork} isTestnet={isTestnet} />
+      </div>
       <TransferInput
         amount={amount}
         setAmount={setAmount}
@@ -63,7 +58,6 @@ export const Card: React.FC<CardProps> = ({
       {amount && Number(amount) > 0 && (
         <ActionButton amount={amount} status={status} setStatus={setStatus} sourceNetwork={sourceNetwork} destinationNetwork={destinationNetwork} />
       )}
-      {/*       )} */}
     </div>
   );
 };
