@@ -21,7 +21,6 @@ export const Main = () => {
   }, [status, destinationNetwork, sourceNetwork]);
 
   const activeChain = Networks[slugNetwork];
-  console.log({ status, destinationNetwork, sourceNetwork, activeChain })
 
   return (
     <ThirdwebProvider activeChain={activeChain.network}>

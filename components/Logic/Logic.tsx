@@ -93,14 +93,13 @@ export const Logic: React.FC<LogicProps> = ({
                   </div>
                 )}
               </div>
-            ) :
-              network.usdcContract ? (
+              ) : (
                 <Approve
                   contractAddress={network.usdcContract}
                   amount={amount}
                   tokenMessengerContract={network.tokenMessengerContract}
                 />
-              ) : null
+                )
           ) : null
         ) : (
           <p>Enter a USDC Amount to Swap</p>

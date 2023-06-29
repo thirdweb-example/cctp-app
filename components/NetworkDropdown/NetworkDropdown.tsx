@@ -18,8 +18,6 @@ export const NetworkDropdown: React.FC<NetworkDropdown> = ({ network, setNetwork
 
   const allNetworks = isTestnet ? Testnets : Mainnets;
 
-  console.log(fullNetwork.network.icon?.url)
-
   return (
     <div className={styles.container}>
       <MediaRenderer src={fullNetwork.src} width="48px" height="48px" />
