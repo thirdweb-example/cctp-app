@@ -1,7 +1,6 @@
-import styles from "./SwapNetwork.module.css";
 import { Dispatch, SetStateAction } from "react";
-import Image from "next/image";
-import { NetworkSlug } from "../../const/chains";
+import { NetworkSlug } from "../const/chains";
+import { ChevronUpDownIcon } from "@heroicons/react/20/solid";
 
 interface SwapNetworkProps {
   sourceNetwork: NetworkSlug;
@@ -22,8 +21,10 @@ export const SwapNetwork: React.FC<SwapNetworkProps> = ({
   };
 
   return (
-    <div className={styles.swap} onClick={swapNetwork}>
-      <Image src="/arrow.png" width={24} height={24} alt="switch network" />
+    <div className="relative mx-auto">
+      <button className="-top-5 -left-7 absolute rounded-full bg-[#232429] p-2 border-2 border-black" onClick={swapNetwork}>
+        <ChevronUpDownIcon className="h-7 w-7 text-gray-400" aria-hidden="true" />
+      </button>
     </div>
   );
 };

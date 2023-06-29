@@ -1,5 +1,5 @@
 import { NetworkDropdown } from "./network-dropdown";
-import { SwapNetwork } from "./SwapNetwork/SwapNetwork";
+import { SwapNetwork } from "./swap-network";
 import { NetworkSlug, NetworkType, Networks } from "../const/chains";
 import { Dispatch, SetStateAction, useState } from "react";
 import { TestnetMainnetSelector } from "./testnet-mainnet-selector";
@@ -43,9 +43,11 @@ export const Card: React.FC<CardProps> = ({
           isTestnet={isTestnet}
           setIsTestnet={setIsTestnet}
         />
-        <NetworkDropdown heading="From" network={sourceNetwork} setNetwork={setSourceNetwork} forbiddenNetwork={destinationNetwork} isTestnet={isTestnet} />
-        <SwapNetwork sourceNetwork={sourceNetwork} setSourceNetwork={setSourceNetwork} destinationNetwork={destinationNetwork} setDestinationNetwork={setDestinationNetwork} />
-        <NetworkDropdown heading="To" network={destinationNetwork} setNetwork={setDestinationNetwork} forbiddenNetwork={sourceNetwork} isTestnet={isTestnet} />
+        <div className="flex flex-col gap-2">
+          <NetworkDropdown heading="From" network={sourceNetwork} setNetwork={setSourceNetwork} forbiddenNetwork={destinationNetwork} isTestnet={isTestnet} />
+          <SwapNetwork sourceNetwork={sourceNetwork} setSourceNetwork={setSourceNetwork} destinationNetwork={destinationNetwork} setDestinationNetwork={setDestinationNetwork} />
+          <NetworkDropdown heading="To" network={destinationNetwork} setNetwork={setDestinationNetwork} forbiddenNetwork={sourceNetwork} isTestnet={isTestnet} />
+        </div>
       </>
       {/*       ) : ( */}
       <TransferInput
