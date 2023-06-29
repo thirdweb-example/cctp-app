@@ -27,7 +27,7 @@ export const TransferInput: React.FC<TransferInputProps> = ({ amount, setAmount,
           <div className="flex gap-1 justify-center items-center">
             <Image src="/usdc.png" width={18} height={18} alt="network logo" />
             <p className="text-white text-xs">
-              {Number(balance).toFixed(2)} <span className="text-gray-300">USDC</span>
+              {Number(balance).toFixed(2)} <span className="text-gray-500">USDC</span>
             </p>
           </div>
         </div>
