@@ -13,7 +13,7 @@ interface AttestationResponse {
 interface BurnProps {
   network: NetworkType;
   destinationNetwork: NetworkSlug;
-  amount: number;
+  amount: string;
   setMessageBytes: Dispatch<SetStateAction<string>>;
   setAttestationSignature: Dispatch<SetStateAction<string>>;
   setStatus: Dispatch<SetStateAction<Status>>;
@@ -48,10 +48,10 @@ export const Burn: React.FC<BurnProps> = ({
   const fullDestinationNetwork = Networks[destinationNetwork];
 
   const burn = async () => {
-    console.log({ amount, formatted: utils.parseUnits(amount.toString(), 6) });
+    console.log({ amount, formatted: utils.parseUnits(amount, 6) });
     const burnTx = await burnUsdc({
       args: [
-        utils.parseUnits(amount.toString(), 6),
+        utils.parseUnits(amount, 6),
         fullDestinationNetwork.domain,
         destinationAddressInBytes32,
         network.usdcContract,

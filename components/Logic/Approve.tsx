@@ -6,11 +6,11 @@ import { utils } from "ethers";
 interface ApproveProps {
   contractAddress: string;
   tokenMessengerContract: string;
-  amount: number;
+  amount: string;
 };
 
 export const Approve: React.FC<ApproveProps> = ({ contractAddress, tokenMessengerContract, amount }) => {
-  const isDisabled = !amount || amount <= 0;
+  const isDisabled = !amount || Number(amount) <= 0;
 
   return (
     <Web3Button
@@ -19,7 +19,7 @@ export const Approve: React.FC<ApproveProps> = ({ contractAddress, tokenMessenge
       action={(contract) =>
         contract.call("approve", [
           tokenMessengerContract,
-          utils.parseUnits(amount.toString(), 6),
+          utils.parseUnits(amount, 6),
         ])
       }
       isDisabled={isDisabled}

@@ -6,7 +6,7 @@ import {
   Networks,
 } from "../const/chains";
 import { Container } from "../components/Container/Container";
-import { Nav } from "../components/Nav/Nav";
+import { Nav } from "../components/nav";
 import { Status } from "../const/types";
 
 const Home: NextPage = () => {

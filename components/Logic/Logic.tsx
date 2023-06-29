@@ -1,4 +1,3 @@
-import styles from "./Logic.module.css";
 import { NetworkSlug, Networks } from "../../const/chains";
 import { useState } from "react";
 import { Approve } from "./Approve";
@@ -15,6 +14,7 @@ import { Burn } from "./Burn";
 import { Dispatch, SetStateAction } from "react";
 import Image from "next/image";
 import { Status } from "../../const/types";
+import { TransferInput } from "../transfer-input";
 
 interface LogicProps {
   sourceNetwork: NetworkSlug;
@@ -42,29 +42,16 @@ export const Logic: React.FC<LogicProps> = ({
   const formattedAllowance = Number(utils.formatUnits(usdcAllowance || BigNumber.from(0), 6));
   const { data: balance, isLoading } = useTokenBalance(usdcContract, address);
 
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState("0.00");
 
   return (
-    <div className={styles.container}>
-      <div className={styles.inputContainer}>
-        <input
-          className={styles.input}
-          type="number"
-          value={amount}
-          onChange={(e) => setAmount(e.target.valueAsNumber)}
-        />
-        <div className={styles.balanceContainer}>
-          <Image src={"/usdc.png"} width={25} height={25} alt="network logo" />
-          {isLoading ?
-            null
-            : (
-              <p className={styles.balance}>
-                {Number(balance?.displayValue).toFixed(2)} USDC
-              </p>
-            )}
-        </div>
-      </div>
-      <div className={styles.buttonContainer}>
+    <div className="w-full">
+      <TransferInput
+        amount={amount}
+        setAmount={setAmount}
+        balance={Number(balance?.displayValue).toFixed(2) || "0.00"}
+      />
+      <div className="">
         {status === "swap" ? (
           <Destination
             destinationNetwork={destinationNetwork}
@@ -72,10 +59,10 @@ export const Logic: React.FC<LogicProps> = ({
             attestationSignature={attestationSignature}
             setStatus={setStatus}
           />
-        ) : amount > 0 ? (
+        ) : Number(amount) > 0 ? (
           usdcAllowance ? (
             formattedAllowance >=
-              amount ? (
+                Number(amount) ? (
               <div>
                 {(!attestationSignature || !messageBytes) && (
                   <div>
