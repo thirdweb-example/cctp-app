@@ -1,23 +1,20 @@
 import styles from "./Logic.module.css";
-import { NetworkSlug, NetworkType, Networks } from "../../const/chains";
+import { NetworkSlug, Networks } from "../../const/chains";
 import { useState } from "react";
 import { Approve } from "./Approve";
 import {
   useAddress,
-  useSigner,
-  useSwitchChain,
   useContract,
   useContractRead,
-  useChainId,
   ConnectWallet,
   useTokenBalance,
 } from "@thirdweb-dev/react";
 import { Destination } from "./Destination";
-import { BigNumber, ethers, utils } from "ethers";
+import { BigNumber, utils } from "ethers";
 import { Burn } from "./Burn";
 import { Dispatch, SetStateAction } from "react";
 import Image from "next/image";
-import { Status } from "../Main";
+import { Status } from "../../const/types";
 
 interface LogicProps {
   sourceNetwork: NetworkSlug;

@@ -3,7 +3,7 @@ import { Networks, NetworkSlug, NetworkType } from "../../const/chains";
 import { ethers, utils } from "ethers";
 import styles from "./Approve.module.css";
 import { Dispatch, SetStateAction } from "react";
-import { Status } from "../Main";
+import { Status } from "../../const/types";
 
 interface AttestationResponse {
   status: string;

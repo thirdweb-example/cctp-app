@@ -6,7 +6,7 @@ import {
 } from "@thirdweb-dev/react";
 import styles from "./Approve.module.css";
 import { Dispatch, SetStateAction } from "react";
-import { Status } from "../Main";
+import { Status } from "../../const/types";
 
 interface DestinationProps {
   messageBytes: string;

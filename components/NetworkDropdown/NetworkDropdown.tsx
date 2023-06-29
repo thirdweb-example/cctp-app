@@ -1,6 +1,4 @@
-/* eslint-disable @next/next/no-img-element */
 import styles from "./NetworkDropdown.module.css";
-import Image from "next/image";
 import { Mainnets, NetworkSlug, NetworkType, Networks, Testnets } from "../../const/chains";
 import { Dispatch, SetStateAction } from "react";
 import { MediaRenderer } from "@thirdweb-dev/react";

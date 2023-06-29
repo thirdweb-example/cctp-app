@@ -5,11 +5,7 @@ import { SwapNetwork } from "../SwapNetwork/SwapNetwork";
 import { NetworkSlug, NetworkType } from "../../const/chains";
 import { Dispatch, SetStateAction } from "react";
 import { Toggle } from "../Toggle/Toggle";
-import { Status } from "../Main";
-
-// need to create the container for the components
-// ned a web3button to perform the swap
-// keep track of all data
+import { Status } from "../../const/types";
 
 interface ContainerProps {
   sourceNetwork: NetworkSlug;
