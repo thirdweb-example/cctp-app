@@ -44,6 +44,18 @@ export const AvalancheFujiTestnet: NetworkType = {
   api: "https://iris-api-sandbox.circle.com/attestations",
 };
 
+export const ArbitrumTestnet: NetworkType = {
+  name: ArbitrumGoerli.name,
+  network: ArbitrumGoerli,
+  src: ArbitrumGoerli.icon.url,
+  domain: 3,
+  tokenMessengerContract: "0x0a2d7f7e0b6b3e4b0b0b9e2d6f7e0b6b3e4b0b0b",
+  messageTransmitterContract: "0x0a2d7f7e0b6b3e4b0b0b9e2d6f7e0b6b3e4b0b0b",
+  usdcContract: "0xfd064A18f3BF249cf1f87FC203E90D8f650f2d63",
+  tokenMinterContract: "0xca6b4c00831ffb77afe22e734a6101b268b7fcbe",
+  api: "https://iris-api-sandbox.circle.com/attestations",
+};
+
 export const EthereumMainnet: NetworkType = {
   name: Ethereum.name,
   network: Ethereum,
@@ -66,18 +78,6 @@ export const AvalancheMainnet: NetworkType = {
   usdcContract: "0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E",
   tokenMinterContract: "0x420f5035fd5dc62a167e7e7f08b604335ae272b8",
   api: "https://iris-api.circle.com/attestations",
-};
-
-export const ArbitrumTestnet: NetworkType = {
-  name: ArbitrumGoerli.name,
-  network: ArbitrumGoerli,
-  src: ArbitrumGoerli.icon.url,
-  domain: 3,
-  tokenMessengerContract: "0x0a2d7f7e0b6b3e4b0b0b9e2d6f7e0b6b3e4b0b0b",
-  messageTransmitterContract: "0x0a2d7f7e0b6b3e4b0b0b9e2d6f7e0b6b3e4b0b0b",
-  usdcContract: "0x5425890298aed601595a70AB815c96711a31Bc65",
-  tokenMinterContract: "0xca6b4c00831ffb77afe22e734a6101b268b7fcbe",
-  api: "https://iris-api-sandbox.circle.com/attestations",
 };
 
 export const ArbitrumMainnet: NetworkType = {
