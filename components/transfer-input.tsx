@@ -18,7 +18,7 @@ export const TransferInput: React.FC<TransferInputProps> = ({ amount, setAmount,
           type="text"
           name="transfer-amount"
           id="transfer-amount"
-          className="py-4 bg-transparent block w-full rounded-md border-0 pr-10 text-gray-400 ring-1 ring-inset ring-gray-700 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+          className="py-4 bg-transparent block w-full rounded-md border-0 pr-10 text-gray-500 ring-1 ring-inset ring-gray-700 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           placeholder="0.00"
           value={amount}
           onChange={(e) => setAmount(e.target.value)}
