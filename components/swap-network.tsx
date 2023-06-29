@@ -3,23 +3,12 @@ import { NetworkSlug } from "../const/chains";
 import { ChevronUpDownIcon } from "@heroicons/react/20/solid";
 
 interface SwapNetworkProps {
-  sourceNetwork: NetworkSlug;
-  setSourceNetwork: Dispatch<SetStateAction<NetworkSlug>>;
-  destinationNetwork: NetworkSlug;
-  setDestinationNetwork: Dispatch<SetStateAction<NetworkSlug>>;
+  swapNetwork: () => void;
 };
 
 export const SwapNetwork: React.FC<SwapNetworkProps> = ({
-  sourceNetwork,
-  setSourceNetwork,
-  destinationNetwork,
-  setDestinationNetwork
+  swapNetwork,
 }) => {
-  const swapNetwork = () => {
-    setDestinationNetwork(sourceNetwork);
-    setSourceNetwork(destinationNetwork);
-  };
-
   return (
     <div className="relative mx-auto">
       <button className="-top-4 -left-7 absolute rounded-full bg-[#232429] p-2 border-2 border-black" onClick={swapNetwork}>

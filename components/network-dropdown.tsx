@@ -8,14 +8,15 @@ import { ChevronDownIcon } from '@heroicons/react/20/solid';
 
 
 interface NetworkDropdown {
+  heading: "From" | "To";
+  swapNetwork: () => void;
   network: NetworkSlug;
   setNetwork: Dispatch<SetStateAction<NetworkSlug>>;
   forbiddenNetwork: NetworkSlug;
   isTestnet: boolean;
-  heading: "From" | "To";
 };
 
-export const NetworkDropdown: React.FC<NetworkDropdown> = ({ network, setNetwork, forbiddenNetwork, isTestnet, heading }) => {
+export const NetworkDropdown: React.FC<NetworkDropdown> = ({ heading, swapNetwork, network, setNetwork, forbiddenNetwork, isTestnet }) => {
   const fullNetwork = Networks[network];
   const allNetworks = isTestnet ? Testnets : Mainnets;
 
@@ -49,11 +50,16 @@ export const NetworkDropdown: React.FC<NetworkDropdown> = ({ network, setNetwork
           <Menu.Items className="absolute right-0 z-10 mt-2 w-full origin-top-right divide-y divide-gray-100 rounded-md bg-[#232429] shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
             <div className="py-1">
               {allNetworks.map(({ network: ntwr }) => (
-                <Menu.Item key={ntwr.slug} disabled={ntwr.slug === forbiddenNetwork} >
+                <Menu.Item key={ntwr.slug} >
                   <button
-                    disabled={ntwr.slug === forbiddenNetwork}
-                    onClick={() => setNetwork(ntwr.slug as NetworkSlug)}
-                    className="group w-full hover:opacity-90 flex items-center px-4 py-2 text-white text-sm disabled:text-gray-300 disabled:cursor-not-allowed"
+                    onClick={() => {
+                      if (ntwr.slug === forbiddenNetwork) {
+                        swapNetwork();
+                      } else {
+                        setNetwork(ntwr.slug as NetworkSlug);
+                      }
+                    }}
+                    className="group w-full hover:opacity-90 flex items-center px-4 py-2 text-white text-sm"
                   >
                     {ntwr.name}
                   </button>

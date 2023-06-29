@@ -35,6 +35,11 @@ export const Card: React.FC<CardProps> = ({
   const { data: balance } = useTokenBalance(usdcContract, address);
   const [amount, setAmount] = useState("");
 
+  const swapNetwork = () => {
+    setDestinationNetwork(sourceNetwork);
+    setSourceNetwork(destinationNetwork);
+  };
+
   return (
     <div className="px-4 py-5 sm:px-6 rounded-xl bg-[#131417] w-full md:w-9/12 mx-auto flex flex-col gap-4">
       {/*       {status === "idle" ? ( */}
@@ -44,9 +49,9 @@ export const Card: React.FC<CardProps> = ({
           setIsTestnet={setIsTestnet}
         />
         <div className="flex flex-col gap-2">
-          <NetworkDropdown heading="From" network={sourceNetwork} setNetwork={setSourceNetwork} forbiddenNetwork={destinationNetwork} isTestnet={isTestnet} />
-          <SwapNetwork sourceNetwork={sourceNetwork} setSourceNetwork={setSourceNetwork} destinationNetwork={destinationNetwork} setDestinationNetwork={setDestinationNetwork} />
-          <NetworkDropdown heading="To" network={destinationNetwork} setNetwork={setDestinationNetwork} forbiddenNetwork={sourceNetwork} isTestnet={isTestnet} />
+          <NetworkDropdown heading="From" swapNetwork={swapNetwork} network={sourceNetwork} setNetwork={setSourceNetwork} forbiddenNetwork={destinationNetwork} isTestnet={isTestnet} />
+          <SwapNetwork swapNetwork={swapNetwork} />
+          <NetworkDropdown heading="To" swapNetwork={swapNetwork} network={destinationNetwork} setNetwork={setDestinationNetwork} forbiddenNetwork={sourceNetwork} isTestnet={isTestnet} />
         </div>
       </>
       {/*       ) : ( */}
