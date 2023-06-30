@@ -1,5 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import Image from "next/image";
+import "@fortawesome/fontawesome-free/css/all.css";
 
 interface TransferInputProps {
   amount: string;
@@ -37,14 +38,7 @@ export const TransferInput: React.FC<TransferInputProps> = ({
             <Image src="/usdc.png" width={18} height={18} alt="network logo" />
 
             {balanceLoading ? (
-              <div className="w-screen h-screen fixed block top-0 left-0 bg-white opacity-75 z-50">
-                <span
-                  className="text-green-500 opacity-75 top-1/2 my-0 mx-auto block relative w-0 h-0"
-                  style={{ top: "50%" }}
-                >
-                  <i className="fas fa-circle-notch fa-spin fa-5x"></i>
-                </span>
-              </div>
+              <i className="fas fa-spinner fa-spin fa-xs"></i>
             ) : (
               <p className="text-white text-xs">
                 {Number(balance).toFixed(2)}{" "}
