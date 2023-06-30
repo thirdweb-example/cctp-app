@@ -5,12 +5,21 @@ interface TransferInputProps {
   amount: string;
   setAmount: Dispatch<SetStateAction<string>>;
   balance: string;
+  balanceLoading: boolean;
 }
 
-export const TransferInput: React.FC<TransferInputProps> = ({ amount, setAmount, balance }) => {
+export const TransferInput: React.FC<TransferInputProps> = ({
+  amount,
+  setAmount,
+  balance,
+  balanceLoading,
+}) => {
   return (
     <div className="w-full">
-      <label htmlFor="transfer-amount" className="block text-sm font-medium leading-6 text-gray-400">
+      <label
+        htmlFor="transfer-amount"
+        className="block text-sm font-medium leading-6 text-gray-400"
+      >
         Transfer amount
       </label>
       <div className="relative mt-2 rounded-md shadow-sm">
@@ -26,9 +35,22 @@ export const TransferInput: React.FC<TransferInputProps> = ({ amount, setAmount,
         <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
           <div className="flex gap-1 justify-center items-center">
             <Image src="/usdc.png" width={18} height={18} alt="network logo" />
-            <p className="text-white text-xs">
-              {Number(balance).toFixed(2)} <span className="text-gray-500">USDC</span>
-            </p>
+
+            {balanceLoading ? (
+              <div className="w-screen h-screen fixed block top-0 left-0 bg-white opacity-75 z-50">
+                <span
+                  className="text-green-500 opacity-75 top-1/2 my-0 mx-auto block relative w-0 h-0"
+                  style={{ top: "50%" }}
+                >
+                  <i className="fas fa-circle-notch fa-spin fa-5x"></i>
+                </span>
+              </div>
+            ) : (
+              <p className="text-white text-xs">
+                {Number(balance).toFixed(2)}{" "}
+                <span className="text-gray-500">USDC</span>
+              </p>
+            )}
           </div>
         </div>
       </div>

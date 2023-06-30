@@ -1,11 +1,18 @@
-import { ConnectWallet, useAddress } from "@thirdweb-dev/react";
+import {
+  ConnectWallet,
+  Web3Button,
+  useAddress,
+  useContract,
+  useContractRead,
+  useTokenBalance,
+} from "@thirdweb-dev/react";
 import { Status } from "../const/types";
 import { Dispatch, SetStateAction, useState } from "react";
 import { NetworkSlug, Networks } from "../const/chains";
 import { SwapButton } from "./swap-button";
 import { ApproveAndBurnButton } from "./approve-and-burn-button";
 
-interface ActionButtonProps {
+export interface ActionButtonProps {
   status: Status;
   setStatus: Dispatch<SetStateAction<Status>>;
   sourceNetwork: NetworkSlug;
@@ -18,7 +25,7 @@ export const ActionButton: React.FC<ActionButtonProps> = ({
   setStatus,
   sourceNetwork,
   destinationNetwork,
-  amount
+  amount,
 }) => {
   const [messageBytes, setMessageBytes] = useState("");
   const [attestationSignature, setAttestationSignature] = useState("");
@@ -31,7 +38,11 @@ export const ActionButton: React.FC<ActionButtonProps> = ({
   }
 
   if (!attestationSignature || !messageBytes) {
-    return (
+    return status === "idle" ? (
+      <button className="connect-wallet" onClick={() => setStatus("burn")}>
+        Switch USDC
+      </button>
+    ) : (
       <ApproveAndBurnButton
         network={network}
         destinationNetwork={destinationNetwork}

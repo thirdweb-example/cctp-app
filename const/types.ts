@@ -1,1 +1,1 @@
-export type Status = "idle" | "approve" | "deposit" | "swap";
+export type Status = "idle" | "burn" | "mint";

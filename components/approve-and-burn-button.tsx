@@ -1,4 +1,10 @@
-import { useAddress, useContract, useContractRead, useContractWrite, Web3Button } from "@thirdweb-dev/react";
+import {
+  useAddress,
+  useContract,
+  useContractRead,
+  useContractWrite,
+  Web3Button,
+} from "@thirdweb-dev/react";
 import { BigNumber, ethers, utils } from "ethers";
 import { Dispatch, SetStateAction } from "react";
 import { Status } from "../const/types";
@@ -16,7 +22,7 @@ interface ApproveAndBurnButtonProps {
   setMessageBytes: Dispatch<SetStateAction<string>>;
   setAttestationSignature: Dispatch<SetStateAction<string>>;
   setStatus: Dispatch<SetStateAction<Status>>;
-};
+}
 
 export const ApproveAndBurnButton: React.FC<ApproveAndBurnButtonProps> = ({
   network,
@@ -33,13 +39,17 @@ export const ApproveAndBurnButton: React.FC<ApproveAndBurnButtonProps> = ({
     network.tokenMessengerContract
   );
 
+  console.log(tokenMessengerContract, "tokenMessengerContract");
   const { contract: usdcContract } = useContract(network.usdcContract);
   // Check allowance
   const { data: usdcAllowance } = useContractRead(usdcContract, "allowance", [
     address,
     network.tokenMessengerContract,
   ]);
-  const formattedAllowance = Number(utils.formatUnits(usdcAllowance || BigNumber.from(0), 6));
+  console.log(usdcAllowance, "usdcAllowance");
+  const formattedAllowance = Number(
+    utils.formatUnits(usdcAllowance || BigNumber.from(0), 6)
+  );
 
   // destination address
   const destinationAddressInBytes32 = ethers.utils.defaultAbiCoder.encode(
@@ -61,7 +71,11 @@ export const ApproveAndBurnButton: React.FC<ApproveAndBurnButtonProps> = ({
 
   const fullDestinationNetwork = Networks[destinationNetwork];
 
-  const hasApprovedAmount = usdcAllowance && formattedAllowance >= Number(amount);
+  const hasApprovedAmount =
+    usdcAllowance && formattedAllowance >= Number(amount);
+  console.log(hasApprovedAmount, "hasApprovedAmount");
+  console.log(formattedAllowance, "usdcAllowance");
+  console.log(utils.parseUnits(amount, 6).toNumber(), "amount");
 
   const approve = async () => {
     if (hasApprovedAmount || !usdcContract) {
@@ -70,8 +84,8 @@ export const ApproveAndBurnButton: React.FC<ApproveAndBurnButtonProps> = ({
     await approveUsdc({
       args: [
         network.tokenMessengerContract,
-        utils.parseUnits(amount, 6),
-      ]
+        utils.parseUnits(amount, 6).toNumber(),
+      ],
     });
   };
 
@@ -82,7 +96,7 @@ export const ApproveAndBurnButton: React.FC<ApproveAndBurnButtonProps> = ({
     // STEP 1: Approve USDC
     await approve();
 
-    // STEP 2: Burn USDC   
+    // STEP 2: Burn USDC
     const burnTx = await burnUsdc({
       args: [
         utils.parseUnits(amount, 6),
@@ -129,11 +143,11 @@ export const ApproveAndBurnButton: React.FC<ApproveAndBurnButtonProps> = ({
       setAttestationSignature(attestationSignature);
       console.log(attestationSignature, "attestationSignature");
       console.log(messageBytes, "messageBytes");
-      setStatus("swap");
+      setStatus("mint");
     }
   };
 
-  const isDisabled = !amount || Number(amount) <= 0;
+  const isDisabled = !usdcContract || !amount || Number(amount) <= 0;
 
   return (
     <div>
