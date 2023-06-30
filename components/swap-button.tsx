@@ -1,5 +1,11 @@
 import { NetworkSlug, Networks } from "../const/chains";
-import { Web3Button, useContract, useContractWrite } from "@thirdweb-dev/react";
+import {
+  Web3Button,
+  useContract,
+  useContractWrite,
+  useTokenBalance,
+  useAddress,
+} from "@thirdweb-dev/react";
 import { Dispatch, SetStateAction } from "react";
 import { Status } from "../const/types";
 import { useState } from "react";
@@ -37,7 +43,16 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
   const { contract: messageTransmitterContract } = useContract(
     fullDestinationNetwork.messageTransmitterContract
   );
-  const { mutateAsync: recieveMessage } = useContractWrite(
+  const { contract: usdcContract } = useContract(
+    fullDestinationNetwork.usdcContract
+  );
+  const address = useAddress();
+  const { data: balance, isLoading: balanceLoading } = useTokenBalance(
+    usdcContract,
+    address
+  );
+  console.log(Number(balance?.displayValue).toFixed(2), "balance");
+  const { mutateAsync: recieveMessage, isSuccess } = useContractWrite(
     messageTransmitterContract,
     "receiveMessage"
   );
@@ -50,14 +65,25 @@ export const SwapButton: React.FC<SwapButtonProps> = ({
   };
   return (
     <>
+      <div className="border rounded-xl m-4">
+        <h2 className="text-gray-500 text-m">Balance:</h2>
+        {balanceLoading ? (
+          <i className="fas fa-spinner fa-spin fa-m"></i>
+        ) : (
+          <h2 className="text-gray-500 text-m">
+            {Number(balance?.displayValue).toFixed(2)}{" "}
+            <span className="text-gray-500">USDC</span>
+          </h2>
+        )}
+      </div>
       <Web3Button
         className="connect-wallet"
         contractAddress={fullDestinationNetwork.messageTransmitterContract}
         action={() => {
           destinationTx(messageBytes, attestationSignature);
-        }}
-        onSuccess={() => {
-          setActive(true);
+          if (isSuccess) {
+            setActive(true);
+          }
         }}
       >
         Mint USDC
