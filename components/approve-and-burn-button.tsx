@@ -34,13 +34,13 @@ export const ApproveAndBurnButton: React.FC<ApproveAndBurnButtonProps> = ({
 }) => {
   const address = useAddress();
 
-  // initialize contract
+  // initialize contracts
   const { contract: tokenMessengerContract } = useContract(
     network.tokenMessengerContract
   );
-
   const { contract: usdcContract } = useContract(network.usdcContract);
-  // Check allowance
+
+  // Check allowance and format correctly
   const { data: usdcAllowance } = useContractRead(usdcContract, "allowance", [
     address,
     network.tokenMessengerContract,
@@ -50,7 +50,7 @@ export const ApproveAndBurnButton: React.FC<ApproveAndBurnButtonProps> = ({
     utils.formatUnits(usdcAllowance || BigNumber.from(0), 6)
   );
 
-  // destination address
+  // destination address to bytes32
   const destinationAddressInBytes32 = ethers.utils.defaultAbiCoder.encode(
     ["address"],
     [address]
