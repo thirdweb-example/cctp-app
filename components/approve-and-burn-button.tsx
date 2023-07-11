@@ -1,57 +1,107 @@
-import { useContract, useContractWrite, Web3Button } from "@thirdweb-dev/react";
-import { NetworkType } from "../../const/chains";
-import { ethers } from "ethers";
-import styles from "./Amount.module.css";
+import {
+  useAddress,
+  useContract,
+  useContractRead,
+  useContractWrite,
+  Web3Button,
+} from "@thirdweb-dev/react";
+import { BigNumber, ethers, utils } from "ethers";
 import { Dispatch, SetStateAction } from "react";
-import { BigNumber } from "ethers";
+import { Status } from "../const/types";
+import { NetworkType, NetworkSlug, Networks } from "../const/chains";
 
 interface AttestationResponse {
   status: string;
   attestation?: string;
 }
 
-type Props = {
+interface ApproveAndBurnButtonProps {
   network: NetworkType;
-  destinationNetwork: NetworkType;
-  destinationAddress: string | undefined;
-  amount: BigNumber;
+  destinationNetwork: NetworkSlug;
+  amount: string;
   setMessageBytes: Dispatch<SetStateAction<string>>;
   setAttestationSignature: Dispatch<SetStateAction<string>>;
-};
+  setStatus: Dispatch<SetStateAction<Status>>;
+}
 
-export const Burn: React.FC<Props> = ({
+export const ApproveAndBurnButton: React.FC<ApproveAndBurnButtonProps> = ({
   network,
-  destinationAddress,
-  amount,
   destinationNetwork,
+  amount,
   setMessageBytes,
   setAttestationSignature,
+  setStatus,
 }) => {
-  // initialize contract
+  const address = useAddress();
+
+  // initialize contracts
   const { contract: tokenMessengerContract } = useContract(
     network.tokenMessengerContract
   );
+  const { contract: usdcContract } = useContract(network.usdcContract);
 
-  // destination address
+  // Check allowance and format correctly
+  const { data: usdcAllowance } = useContractRead(usdcContract, "allowance", [
+    address,
+    network.tokenMessengerContract,
+  ]);
+  console.log("usdcAllowance: ", usdcAllowance);
+  const formattedAllowance = Number(
+    utils.formatUnits(usdcAllowance || BigNumber.from(0), 6)
+  );
+
+  // destination address to bytes32
   const destinationAddressInBytes32 = ethers.utils.defaultAbiCoder.encode(
     ["address"],
-    [destinationAddress]
+    [address]
+  );
+
+  // STEP 1: Approve USDC
+  const { mutateAsync: approveUsdc } = useContractWrite(
+    usdcContract,
+    "approve"
   );
 
   // STEP 2: Burn USDC
-  const { mutateAsync: burnUSDC } = useContractWrite(
+  const { mutateAsync: burnUsdc } = useContractWrite(
     tokenMessengerContract,
     "depositForBurn"
   );
-  const burn = async () => {
-    const burnTx = await burnUSDC({
+
+  const fullDestinationNetwork = Networks[destinationNetwork];
+
+  const hasApprovedAmount =
+    usdcAllowance && formattedAllowance >= Number(amount);
+
+  const approve = async () => {
+    if (hasApprovedAmount || !usdcContract) {
+      return;
+    }
+    await approveUsdc({
       args: [
-        amount,
-        destinationNetwork.domain,
+        network.tokenMessengerContract,
+        utils.parseUnits(amount, 6).toNumber(),
+      ],
+    });
+  };
+
+  const approveAndBurn = async () => {
+    if (!usdcContract) {
+      return;
+    }
+    // STEP 1: Approve USDC
+    await approve();
+
+    // STEP 2: Burn USDC
+    const burnTx = await burnUsdc({
+      args: [
+        utils.parseUnits(amount, 6),
+        fullDestinationNetwork.domain,
         destinationAddressInBytes32,
         network.usdcContract,
       ],
     });
+
     // STEP 3: Retrieve message bytes from logs
     const transactionReceipt = burnTx.receipt;
     const eventTopic = ethers.utils.keccak256(
@@ -72,9 +122,6 @@ export const Burn: React.FC<Props> = ({
       console.log(`MessageBytes: ${messageBytes}`);
       console.log(`MessageHash: ${messageHash}`);
 
-      console.log(burnTx, "burnUSDC data");
-      console.log(burnTx.receipt.logs, "burnUSDC logs");
-
       // STEP 4: Fetch attestation signature
       let attestationResponse: AttestationResponse = { status: "pending" };
       while (attestationResponse.status !== "complete") {
@@ -87,18 +134,23 @@ export const Burn: React.FC<Props> = ({
       if (typeof attestationSignature === "undefined") return;
       setMessageBytes(messageBytes);
       setAttestationSignature(attestationSignature);
-      console.log(attestationSignature, "attestationSignature");
-      console.log(messageBytes, "messageBytes");
+      setStatus("mint");
     }
   };
+
+  const isDisabled = !usdcContract || !amount || Number(amount) <= 0;
+
   return (
     <div>
       <Web3Button
-        className={styles.button}
+        className="connect-wallet"
         contractAddress={network.usdcContract}
-        action={burn}
+        action={async () => {
+          return await approveAndBurn();
+        }}
+        isDisabled={isDisabled}
       >
-        Deposit USDC
+        Burn USDC
       </Web3Button>
     </div>
   );
