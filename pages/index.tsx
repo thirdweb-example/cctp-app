@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import { ThirdwebProvider } from "@thirdweb-dev/react";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { NetworkSlug, Networks } from "../const/chains";
 import { Card } from "../components/card";
 import { Nav } from "../components/nav";

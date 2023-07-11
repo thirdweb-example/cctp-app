@@ -39,7 +39,6 @@ export const ApproveAndBurnButton: React.FC<ApproveAndBurnButtonProps> = ({
     network.tokenMessengerContract
   );
 
-  console.log(tokenMessengerContract, "tokenMessengerContract");
   const { contract: usdcContract } = useContract(network.usdcContract);
   // Check allowance
   const { data: usdcAllowance } = useContractRead(usdcContract, "allowance", [

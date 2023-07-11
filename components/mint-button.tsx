@@ -36,7 +36,6 @@ export const MintButton: React.FC<MintButtonProps> = ({
   destinationNetwork,
   messageBytes,
   attestationSignature,
-  setStatus,
 }) => {
   const [active, setActive] = useState(false);
   const fullDestinationNetwork = Networks[destinationNetwork];
