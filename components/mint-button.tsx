@@ -25,14 +25,14 @@ const config = {
   colors: ["#a864fd", "#29cdff", "#78ff44", "#ff718d", "#fdff6a"],
 };
 
-interface SwapButtonProps {
+interface MintButtonProps {
   messageBytes: string;
   destinationNetwork: NetworkSlug;
   attestationSignature: string;
   setStatus: Dispatch<SetStateAction<Status>>;
 }
 
-export const SwapButton: React.FC<SwapButtonProps> = ({
+export const MintButton: React.FC<MintButtonProps> = ({
   destinationNetwork,
   messageBytes,
   attestationSignature,

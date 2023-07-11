@@ -1,15 +1,8 @@
-import {
-  ConnectWallet,
-  Web3Button,
-  useAddress,
-  useContract,
-  useContractRead,
-  useTokenBalance,
-} from "@thirdweb-dev/react";
+import { ConnectWallet, useAddress } from "@thirdweb-dev/react";
 import { Status } from "../const/types";
 import { Dispatch, SetStateAction, useState } from "react";
 import { NetworkSlug, Networks } from "../const/chains";
-import { SwapButton } from "./swap-button";
+import { MintButton } from "./mint-button";
 import { ApproveAndBurnButton } from "./approve-and-burn-button";
 
 export interface ActionButtonProps {
@@ -55,7 +48,7 @@ export const ActionButton: React.FC<ActionButtonProps> = ({
   }
 
   return (
-    <SwapButton
+    <MintButton
       destinationNetwork={destinationNetwork}
       messageBytes={messageBytes}
       attestationSignature={attestationSignature}
