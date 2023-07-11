@@ -13,8 +13,6 @@ interface CardProps {
   setSourceNetwork: Dispatch<SetStateAction<NetworkSlug>>;
   destinationNetwork: NetworkSlug;
   setDestinationNetwork: Dispatch<SetStateAction<NetworkSlug>>;
-  isTestnet: boolean;
-  setIsTestnet: Dispatch<SetStateAction<boolean>>;
   status: Status;
   setStatus: Dispatch<SetStateAction<Status>>;
 }
@@ -24,8 +22,6 @@ export const Card: React.FC<CardProps> = ({
   setSourceNetwork,
   destinationNetwork,
   setDestinationNetwork,
-  isTestnet,
-  setIsTestnet,
   status,
   setStatus,
 }) => {
@@ -47,10 +43,6 @@ export const Card: React.FC<CardProps> = ({
     <div className="px-4 py-5 sm:px-6 rounded-xl bg-[#131417] w-full md:w-9/12 mx-auto flex flex-col gap-4">
       {status === "idle" ? (
         <>
-          {/*         <TestnetMainnetSelector
-          isTestnet={isTestnet}
-          setIsTestnet={setIsTestnet}
-        /> */}
           <div className="flex flex-col gap-2">
             <NetworkDropdown
               heading="From"
@@ -58,7 +50,6 @@ export const Card: React.FC<CardProps> = ({
               network={sourceNetwork}
               setNetwork={setSourceNetwork}
               forbiddenNetwork={destinationNetwork}
-              isTestnet={isTestnet}
             />
             <SwapNetwork swapNetwork={swapNetwork} />
             <NetworkDropdown
@@ -67,7 +58,6 @@ export const Card: React.FC<CardProps> = ({
               network={destinationNetwork}
               setNetwork={setDestinationNetwork}
               forbiddenNetwork={sourceNetwork}
-              isTestnet={isTestnet}
             />
           </div>
           <TransferInput

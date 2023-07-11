@@ -56,46 +56,7 @@ export const ArbitrumTestnet: NetworkType = {
     api: "https://iris-api-sandbox.circle.com/attestations",
 };
 
-export const EthereumMainnet: NetworkType = {
-    name: Ethereum.name,
-    network: Ethereum,
-    src: Ethereum.icon.url,
-    domain: 0,
-    tokenMessengerContract: "0xbd3fa81b58ba92a82136038b25adec7066af3155",
-    messageTransmitterContract: "0x0a992d191deec32afe36203ad87d7d289a738f81",
-    usdcContract: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
-    tokenMinterContract: "0xc4922d64a24675e16e1586e3e3aa56c06fabe907",
-    api: "https://iris-api.circle.com/attestations",
-};
-
-export const AvalancheMainnet: NetworkType = {
-    name: Avalanche.name,
-    network: Avalanche,
-    src: Avalanche.icon.url,
-    domain: 1,
-    tokenMessengerContract: "0x6b25532e1060ce10cc3b0a99e5683b91bfde6982",
-    messageTransmitterContract: "0x8186359af5f57fbb40c6b14a588d2a59c0c29880",
-    usdcContract: "0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E",
-    tokenMinterContract: "0x420f5035fd5dc62a167e7e7f08b604335ae272b8",
-    api: "https://iris-api.circle.com/attestations",
-};
-
-export const ArbitrumMainnet: NetworkType = {
-    name: Arbitrum.name,
-    network: Arbitrum,
-    src: Arbitrum.icon.url,
-    domain: 3,
-    tokenMessengerContract: "0x19330d10D9Cc8751218eaf51E8885D058642E08A",
-    messageTransmitterContract: "0xC30362313FBBA5cf9163F0bb16a0e01f01A896ca",
-    usdcContract: "0x720bF4e85513db78AA7698d3C8B0508aD6Ae9bE5",
-    tokenMinterContract: "0xE7Ed1fa7f45D05C508232aa32649D89b73b8bA48",
-    api: "https://iris-api.circle.com/attestations",
-};
-
 export const Networks: Record<string, NetworkType> = {
-    [Ethereum.slug]: EthereumMainnet,
-    [Avalanche.slug]: AvalancheMainnet,
-    [Arbitrum.slug]: ArbitrumMainnet,
     [Goerli.slug]: GoerliTestnet,
     [AvalancheFuji.slug]: AvalancheFujiTestnet,
     [ArbitrumGoerli.slug]: ArbitrumTestnet,
@@ -103,7 +64,4 @@ export const Networks: Record<string, NetworkType> = {
 
 export const NetworkList: NetworkType[] = Object.values(Networks);
 
-export const Mainnets = NetworkList.filter(({ network }) => !network.testnet);
-export const Testnets = NetworkList.filter(({ network }) => network.testnet);
-
-export type NetworkSlug = "ethereum" | "avalanche" | "arbitrum" | "goerli" | "avalanche-fuji" | "arbitrum-goerli";
+export type NetworkSlug = "goerli" | "avalanche-fuji" | "arbitrum-goerli";

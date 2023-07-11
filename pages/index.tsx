@@ -8,7 +8,6 @@ import { Status } from "../const/types";
 
 const Home: NextPage = () => {
   const [status, setStatus] = useState<Status>("idle");
-  const [isTestnet, setIsTestnet] = useState(true);
 
   const [sourceNetwork, setSourceNetwork] = useState<NetworkSlug>("goerli");
   const [destinationNetwork, setDestinationNetwork] =
@@ -20,16 +19,6 @@ const Home: NextPage = () => {
 
   const activeChain = Networks[slugNetwork];
 
-  useEffect(() => {
-    if (isTestnet) {
-      setSourceNetwork("goerli");
-      setDestinationNetwork("avalanche-fuji");
-    } else {
-      setSourceNetwork("ethereum");
-      setDestinationNetwork("avalanche");
-    }
-  }, [isTestnet]);
-
   return (
     <ThirdwebProvider activeChain={activeChain.network}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-6">
@@ -40,8 +29,6 @@ const Home: NextPage = () => {
             setSourceNetwork={setSourceNetwork}
             destinationNetwork={destinationNetwork}
             setDestinationNetwork={setDestinationNetwork}
-            isTestnet={isTestnet}
-            setIsTestnet={setIsTestnet}
             status={status}
             setStatus={setStatus}
           />

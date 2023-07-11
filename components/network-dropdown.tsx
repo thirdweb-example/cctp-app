@@ -1,4 +1,4 @@
-import { Mainnets, NetworkSlug, Networks, Testnets } from "../const/chains";
+import { NetworkSlug, Networks, NetworkList } from "../const/chains";
 import { Dispatch, SetStateAction } from "react";
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
@@ -11,7 +11,6 @@ interface NetworkDropdown {
   network: NetworkSlug;
   setNetwork: Dispatch<SetStateAction<NetworkSlug>>;
   forbiddenNetwork: NetworkSlug;
-  isTestnet: boolean;
 }
 
 export const NetworkDropdown: React.FC<NetworkDropdown> = ({
@@ -20,10 +19,8 @@ export const NetworkDropdown: React.FC<NetworkDropdown> = ({
   network,
   setNetwork,
   forbiddenNetwork,
-  isTestnet,
 }) => {
   const fullNetwork = Networks[network];
-  const allNetworks = isTestnet ? Testnets : Mainnets;
 
   return (
     <div className="p-3 rounded-xl bg-[#232429] mx-auto flex flex-col gap-2 w-full">
@@ -61,7 +58,7 @@ export const NetworkDropdown: React.FC<NetworkDropdown> = ({
         >
           <Menu.Items className="absolute right-0 z-10 mt-2 w-full origin-top-right divide-y divide-gray-100 rounded-md bg-[#232429] shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
             <div className="py-1">
-              {allNetworks.map(({ network: ntwr }) => (
+              {NetworkList.map(({ network: ntwr }) => (
                 <Menu.Item key={ntwr.slug}>
                   <button
                     onClick={() => {
