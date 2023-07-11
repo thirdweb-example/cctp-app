@@ -6,18 +6,11 @@ export const Nav = () => {
   return (
     <nav className="flex justify-between">
       <Link href="/" className="flex justify-center items-center gap-3">
-        <Image
-          src="/thirdweb.svg"
-          width={48}
-          height={48}
-          alt="thirdweb logo"
-        />
-        <span className="text-white font-bold">
-          USDC Swap
-        </span>
+        <Image src="/thirdweb.svg" width={48} height={48} alt="thirdweb logo" />
+        <span className="text-white font-bold">USDC Cross-Chain Transfer</span>
       </Link>
 
       <ConnectWallet theme="dark" />
     </nav>
   );
-}
+};
