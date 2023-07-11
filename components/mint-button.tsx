@@ -50,7 +50,6 @@ export const MintButton: React.FC<MintButtonProps> = ({
     usdcContract,
     address
   );
-  console.log(Number(balance?.displayValue).toFixed(2), "balance");
   const { mutateAsync: recieveMessage, isSuccess } = useContractWrite(
     messageTransmitterContract,
     "receiveMessage"

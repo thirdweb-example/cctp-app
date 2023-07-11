@@ -45,7 +45,7 @@ export const ApproveAndBurnButton: React.FC<ApproveAndBurnButtonProps> = ({
     address,
     network.tokenMessengerContract,
   ]);
-  console.log(usdcAllowance, "usdcAllowance");
+  console.log("usdcAllowance: ", usdcAllowance);
   const formattedAllowance = Number(
     utils.formatUnits(usdcAllowance || BigNumber.from(0), 6)
   );
@@ -72,9 +72,6 @@ export const ApproveAndBurnButton: React.FC<ApproveAndBurnButtonProps> = ({
 
   const hasApprovedAmount =
     usdcAllowance && formattedAllowance >= Number(amount);
-  console.log(hasApprovedAmount, "hasApprovedAmount");
-  console.log(formattedAllowance, "usdcAllowance");
-  console.log(utils.parseUnits(amount, 6).toNumber(), "amount");
 
   const approve = async () => {
     if (hasApprovedAmount || !usdcContract) {
@@ -125,9 +122,6 @@ export const ApproveAndBurnButton: React.FC<ApproveAndBurnButtonProps> = ({
       console.log(`MessageBytes: ${messageBytes}`);
       console.log(`MessageHash: ${messageHash}`);
 
-      console.log(burnTx, "burnUsdc data");
-      console.log(burnTx.receipt.logs, "burnUsdc logs");
-
       // STEP 4: Fetch attestation signature
       let attestationResponse: AttestationResponse = { status: "pending" };
       while (attestationResponse.status !== "complete") {
@@ -140,8 +134,6 @@ export const ApproveAndBurnButton: React.FC<ApproveAndBurnButtonProps> = ({
       if (typeof attestationSignature === "undefined") return;
       setMessageBytes(messageBytes);
       setAttestationSignature(attestationSignature);
-      console.log(attestationSignature, "attestationSignature");
-      console.log(messageBytes, "messageBytes");
       setStatus("mint");
     }
   };
