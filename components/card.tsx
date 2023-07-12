@@ -73,6 +73,7 @@ export const Card: React.FC<CardProps> = ({
               setStatus={setStatus}
               sourceNetwork={sourceNetwork}
               destinationNetwork={destinationNetwork}
+              setAmount={setAmount}
             />
           )}
         </>
@@ -84,6 +85,7 @@ export const Card: React.FC<CardProps> = ({
             setStatus={setStatus}
             sourceNetwork={sourceNetwork}
             destinationNetwork={destinationNetwork}
+            setAmount={setAmount}
           />
         </Modal>
       )}
