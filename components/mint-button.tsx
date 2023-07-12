@@ -30,6 +30,7 @@ interface MintButtonProps {
   destinationNetwork: NetworkSlug;
   attestationSignature: string;
   setStatus: Dispatch<SetStateAction<Status>>;
+  setAmount: Dispatch<SetStateAction<string>>;
 }
 
 export const MintButton: React.FC<MintButtonProps> = ({
@@ -37,6 +38,7 @@ export const MintButton: React.FC<MintButtonProps> = ({
   messageBytes,
   attestationSignature,
   setStatus,
+  setAmount,
 }) => {
   const [active, setActive] = useState(false);
   const fullDestinationNetwork = Networks[destinationNetwork];
@@ -51,11 +53,11 @@ export const MintButton: React.FC<MintButtonProps> = ({
     usdcContract,
     address
   );
-  console.log(Number(balance?.displayValue).toFixed(2), "balance");
-  const { mutateAsync: recieveMessage, isSuccess } = useContractWrite(
-    messageTransmitterContract,
-    "receiveMessage"
-  );
+  const {
+    mutateAsync: recieveMessage,
+    isSuccess,
+    isLoading,
+  } = useContractWrite(messageTransmitterContract, "receiveMessage");
   const destinationTx = async (
     messageBytes: any,
     attestationSignature: string
@@ -65,30 +67,48 @@ export const MintButton: React.FC<MintButtonProps> = ({
   };
   return (
     <>
-      <div className="border rounded-xl m-4">
-        <h2 className="text-gray-500 text-m">Balance:</h2>
+      <div className="border border-[#706f78] bg-[#131417] rounded-xl m-4 ">
+        <h2 className="text-gray-300 text-m">Balance:</h2>
         {balanceLoading ? (
           <i className="fas fa-spinner fa-spin fa-m"></i>
         ) : (
-          <h2 className="text-gray-500 text-m">
+          <h2 className="text-gray-200 text-m">
             {Number(balance?.displayValue).toFixed(2)}{" "}
-            <span className="text-gray-500">USDC</span>
+            <span className="text-gray-200">USDC</span>
           </h2>
         )}
       </div>
-      <Web3Button
-        className="connect-wallet"
-        contractAddress={fullDestinationNetwork.messageTransmitterContract}
-        action={() => {
-          destinationTx(messageBytes, attestationSignature);
-          if (isSuccess) {
+
+      {active ? (
+        <button
+          className="transfer-button"
+          onClick={() => {
+            setStatus("idle");
+            setAmount("");
+          }}
+          disabled={isLoading}
+        >
+          Close
+        </button>
+      ) : (
+        <Web3Button
+          className="connect-wallet"
+          contractAddress={fullDestinationNetwork.messageTransmitterContract}
+          action={() => {
+            destinationTx(messageBytes, attestationSignature);
+            if (isSuccess) {
+              setActive(true);
+            }
+          }}
+          isDisabled={isLoading}
+          onSuccess={() => {
             setActive(true);
-          }
-        }}
-      >
-        Mint USDC
-      </Web3Button>
-      <Confetti active={active} config={config} />
+          }}
+        >
+          Mint USDC
+        </Web3Button>
+      )}
+      <Confetti active={isSuccess} config={config} />
     </>
   );
 };

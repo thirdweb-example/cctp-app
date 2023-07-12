@@ -11,6 +11,7 @@ export interface ActionButtonProps {
   sourceNetwork: NetworkSlug;
   destinationNetwork: NetworkSlug;
   amount: string;
+  setAmount: Dispatch<SetStateAction<string>>;
 }
 
 export const ActionButton: React.FC<ActionButtonProps> = ({
@@ -19,6 +20,7 @@ export const ActionButton: React.FC<ActionButtonProps> = ({
   sourceNetwork,
   destinationNetwork,
   amount,
+  setAmount,
 }) => {
   const [messageBytes, setMessageBytes] = useState("");
   const [attestationSignature, setAttestationSignature] = useState("");
@@ -32,7 +34,7 @@ export const ActionButton: React.FC<ActionButtonProps> = ({
 
   if (!attestationSignature || !messageBytes) {
     return status === "idle" ? (
-      <button className="connect-wallet" onClick={() => setStatus("burn")}>
+      <button className="transfer-button" onClick={() => setStatus("burn")}>
         Transfer USDC
       </button>
     ) : (
@@ -53,6 +55,7 @@ export const ActionButton: React.FC<ActionButtonProps> = ({
       messageBytes={messageBytes}
       attestationSignature={attestationSignature}
       setStatus={setStatus}
+      setAmount={setAmount}
     />
   );
 };
