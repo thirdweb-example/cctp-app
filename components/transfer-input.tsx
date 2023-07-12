@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 import Image from "next/image";
 import "@fortawesome/fontawesome-free/css/all.css";
+import { useAddress } from "@thirdweb-dev/react";
 
 interface TransferInputProps {
   amount: string;
@@ -15,6 +16,7 @@ export const TransferInput: React.FC<TransferInputProps> = ({
   balance,
   balanceLoading,
 }) => {
+  const address = useAddress();
   return (
     <div className="w-full">
       <label
@@ -37,14 +39,16 @@ export const TransferInput: React.FC<TransferInputProps> = ({
           <div className="flex gap-1 justify-center items-center">
             <Image src="/usdc.png" width={18} height={18} alt="network logo" />
 
-            {balanceLoading ? (
-              <i className="fas fa-spinner fa-spin fa-xs"></i>
-            ) : (
-              <p className="text-white text-xs">
-                {Number(balance).toFixed(2)}{" "}
-                <span className="text-gray-500">USDC</span>
-              </p>
-            )}
+            {address ? (
+              balanceLoading ? (
+                <i className="fas fa-spinner fa-spin fa-xs"></i>
+              ) : (
+                <p className="text-white text-xs">
+                  {Number(balance).toFixed(2)}{" "}
+                  <span className="text-gray-500">USDC</span>
+                </p>
+              )
+            ) : null}
           </div>
         </div>
       </div>
