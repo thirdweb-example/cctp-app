@@ -7,19 +7,24 @@ export interface ModalProps {
   children: React.ReactNode;
   setStatus: Dispatch<SetStateAction<Status>>;
   status: Status;
+  setAmount: Dispatch<SetStateAction<string>>;
 }
 
 export const Modal: React.FC<ModalProps> = ({
   children,
   setStatus,
   status,
+  setAmount,
 }) => {
   return (
     <div className="inline-block align-bottom rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
       <div className="relative px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
         <div className="absolute top-0 right-0 pt-4 pr-4">
           <button
-            onClick={() => setStatus("idle")}
+            onClick={() => {
+              setStatus("idle");
+              setAmount("");
+            }}
             className="text-gray-400 hover:text-gray-400"
           >
             <svg
