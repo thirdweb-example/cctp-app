@@ -32,7 +32,7 @@ export const ActionButton: React.FC<ActionButtonProps> = ({
 
   if (!attestationSignature || !messageBytes) {
     return status === "idle" ? (
-      <button className="connect-wallet" onClick={() => setStatus("burn")}>
+      <button className="transfer-button" onClick={() => setStatus("burn")}>
         Transfer USDC
       </button>
     ) : (
