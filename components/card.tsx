@@ -78,7 +78,7 @@ export const Card: React.FC<CardProps> = ({
           )}
         </>
       ) : (
-        <Modal setStatus={setStatus} status={status}>
+        <Modal setStatus={setStatus} status={status} setAmount={setAmount}>
           <ActionButton
             amount={amount}
             status={status}
