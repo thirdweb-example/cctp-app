@@ -20,7 +20,10 @@ const Home: NextPage = () => {
   const activeChain = Networks[slugNetwork];
 
   return (
-    <ThirdwebProvider activeChain={activeChain.network}>
+    <ThirdwebProvider
+      activeChain={activeChain.network}
+      clientId={process.env.NEXT_PUBLIC_TEMPLATE_CLIENT_ID}
+    >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-6">
         <div className="mx-auto max-w-3xl flex flex-col gap-12">
           <Nav />
