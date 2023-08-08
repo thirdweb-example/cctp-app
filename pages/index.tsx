@@ -6,6 +6,11 @@ import { Card } from "../components/card";
 import { Nav } from "../components/nav";
 import { Status } from "../const/types";
 
+const clientId = process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID;
+if (!clientId) {
+  throw new Error("Missing env var: NEXT_PUBLIC_THIRDWEB_CLIENT_ID")
+}
+
 const Home: NextPage = () => {
   const [status, setStatus] = useState<Status>("idle");
 
@@ -20,7 +25,7 @@ const Home: NextPage = () => {
   const activeChain = Networks[slugNetwork];
 
   return (
-    <ThirdwebProvider activeChain={activeChain.network}>
+    <ThirdwebProvider activeChain={activeChain.network} clientId={clientId}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-6">
         <div className="mx-auto max-w-3xl flex flex-col gap-12">
           <Nav />
