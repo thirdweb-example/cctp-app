@@ -6,9 +6,10 @@ import { Card } from "../components/card";
 import { Nav } from "../components/nav";
 import { Status } from "../const/types";
 
-const clientId = process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID;
+const clientId = process.env.NEXT_PUBLIC_TEMPLATE_CLIENT_ID;
 if (!clientId) {
-  throw new Error("Missing env var: NEXT_PUBLIC_THIRDWEB_CLIENT_ID")
+  console.log("Missing env var: NEXT_PUBLIC_TEMPLATE_CLIENT_ID");
+  throw new Error("Missing env var: NEXT_PUBLIC_TEMPLATE_CLIENT_ID");
 }
 
 const Home: NextPage = () => {
