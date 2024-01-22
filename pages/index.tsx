@@ -6,7 +6,7 @@ import { Card } from "../components/card";
 import { Nav } from "../components/nav";
 import { Status } from "../const/types";
 
-const clientId = process.env.NEXT_PUBLIC_TEMPLATE_CLIENT_ID;
+const clientId = process.env.NEXT_PUBLIC_TEMPLATE_CLIENT_ID as string;
 if (!clientId) {
   console.log("Missing env var: NEXT_PUBLIC_TEMPLATE_CLIENT_ID");
   throw new Error("Missing env var: NEXT_PUBLIC_TEMPLATE_CLIENT_ID");
@@ -15,9 +15,9 @@ if (!clientId) {
 const Home: NextPage = () => {
   const [status, setStatus] = useState<Status>("idle");
 
-  const [sourceNetwork, setSourceNetwork] = useState<NetworkSlug>("goerli");
+  const [sourceNetwork, setSourceNetwork] = useState<NetworkSlug>("avalanche-fuji");
   const [destinationNetwork, setDestinationNetwork] =
-    useState<NetworkSlug>("avalanche-fuji");
+    useState<NetworkSlug>("sepolia");
 
   const slugNetwork = useMemo(() => {
     return status === "mint" ? destinationNetwork : sourceNetwork;
@@ -27,8 +27,8 @@ const Home: NextPage = () => {
 
   return (
     <ThirdwebProvider activeChain={activeChain.network} clientId={clientId}>
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 mt-6">
-        <div className="mx-auto max-w-3xl flex flex-col gap-12">
+      <div className="px-4 mx-auto mt-6 max-w-7xl sm:px-6 lg:px-8">
+        <div className="flex flex-col max-w-3xl gap-12 mx-auto">
           <Nav />
           <Card
             sourceNetwork={sourceNetwork}
