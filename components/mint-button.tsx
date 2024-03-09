@@ -30,6 +30,7 @@ interface MintButtonProps {
   destinationNetwork: NetworkSlug;
   attestationSignature: string;
   setStatus: Dispatch<SetStateAction<Status>>;
+  setAmount: Dispatch<SetStateAction<string>>;
 }
 
 export const MintButton: React.FC<MintButtonProps> = ({
@@ -37,6 +38,7 @@ export const MintButton: React.FC<MintButtonProps> = ({
   messageBytes,
   attestationSignature,
   setStatus,
+  setAmount,
 }) => {
   const [active, setActive] = useState(false);
   const fullDestinationNetwork = Networks[destinationNetwork];
@@ -80,7 +82,10 @@ export const MintButton: React.FC<MintButtonProps> = ({
       {active ? (
         <button
           className="transfer-button"
-          onClick={() => setStatus("idle")}
+          onClick={() => {
+            setStatus("idle");
+            setAmount("");
+          }}
           disabled={isLoading}
         >
           Close
